@@ -8,17 +8,15 @@ public class Vozlisce {
 	public int y;
 	public Set<Rob> rob;//ali je vozlisce na robu, ker imajo vogali 2 roba. Notranji bodo prazne mnozice.
 	public Barva barva;
-	public Set<Vozlisce> sosedi;
-	public Object ime;
+	public Set<Integer> sosedi;
 	
 	
-	public Vozlisce(int x, int y, Object ime) {
+	public Vozlisce(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.ime = ime;
 		this.barva = Barva.prazen;
 		this.rob = new HashSet<Rob>();
-		this.sosedi = new HashSet<Vozlisce>();
+		this.sosedi = new HashSet<Integer>();
 	} 
 	
 	
