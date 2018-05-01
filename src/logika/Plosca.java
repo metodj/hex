@@ -3,12 +3,12 @@ package logika;
 
 
 public class Plosca {
-	final int N = 121;
+	final int N = 11;
 	Vozlisce[] tabelaVozlisc;
 	
 //Plosco predstavimo kot tabelo vozlisc
 	public Plosca() {
-		this.tabelaVozlisc = new Vozlisce[N];
+		this.tabelaVozlisc = new Vozlisce[N*N];
 		
 	}
 	
@@ -34,75 +34,56 @@ public class Plosca {
 	}
 	
 	public void incializacija() {
-		
-		int indeks = 0;
-		//spodnji trikotnik romba
-		for (int i = 1; i <= 11; i++) {
-			for (int j = 1; j <= i; j++ ) {
-				Vozlisce a = new Vozlisce(i, j); //pozor: tole niso obiène karteziène koordinate
-				this.tabelaVozlisc[indeks] = a;
-				if (i <= 11 && j == 1) {
-					a.rob.add(Rob.r1);
-					dodajPovezavo(indeks, indeks +1);
-					dodajPovezavo(indeks, indeks + i);
-					dodajPovezavo(indeks, indeks -i + 1);
-					dodajPovezavo(indeks, (indeks +1 + i) * (1 - round(Math.pow(0, 11 -i ))));
-				} if (i >= 11 && j == 1) {
-					a.rob.add(Rob.m2);
-				}  if (i == j) {
-					a.rob.add(Rob.m1);
-					dodajPovezavo(indeks, (indeks +i) * (1 - round(Math.pow(0, 11 -i ))));
-					dodajPovezavo(indeks, Math.max(indeks - 1,0));
-					dodajPovezavo(indeks, (indeks +1+i) * (1 - round(Math.pow(0, 11 -i ))));
-					dodajPovezavo(indeks, Math.max(indeks - i,0));
-				} if (i + j == 22) {
-					a.rob.add(Rob.r2);
-				} if(j > 1 && j < i) {		// imamo notranje vozlišèe, dodamo 6 sosedov
-					dodajPovezavo(indeks, indeks+1);
-					dodajPovezavo(indeks, indeks-1);
-					dodajPovezavo(indeks, indeks+i);
-					dodajPovezavo(indeks, indeks-i);
-					dodajPovezavo(indeks, indeks+i+1);
-					dodajPovezavo(indeks, indeks-i+1);
+		int counter = 0;
+		for (int y = 0; y <= N-1; y++) {
+			for (int x = 0; x <= N-1; x++) {
+				Vozlisce tmp = new Vozlisce(x, y);
+				tabelaVozlisc[counter] = tmp;
+				if (y == 0) {
+					tmp.rob.add(Rob.m1);
+					dodajPovezavo(counter, counter + 1);
+					dodajPovezavo(counter, counter - 1);
+					dodajPovezavo(counter, counter + (N-1));
+					dodajPovezavo(counter, counter + N);
+				} else if (x == 0) {
+					tmp.rob.add(Rob.r1);
+					dodajPovezavo(counter, counter + 1);
+					dodajPovezavo(counter, counter - N);
+					dodajPovezavo(counter, counter + N);
+					dodajPovezavo(counter, counter - (N-1));
+				} else if (x == (N-1)) {
+					tmp.rob.add(Rob.r2);
+					dodajPovezavo(counter, counter - 1);
+					dodajPovezavo(counter, counter - N);
+					dodajPovezavo(counter, counter + N);
+					dodajPovezavo(counter, counter + (N-1));
+				} else if (y == (N-1)) {
+					tmp.rob.add(Rob.m2);
+					dodajPovezavo(counter, counter + 1);
+					dodajPovezavo(counter, counter - 1);
+					dodajPovezavo(counter, counter - N);
+					dodajPovezavo(counter, counter - (N-1));
+				} else {
+					dodajPovezavo(counter, counter + 1);
+					dodajPovezavo(counter, counter - 1);
+					dodajPovezavo(counter, counter - N);
+					dodajPovezavo(counter, counter - (N-1));
+					dodajPovezavo(counter, counter + N);
+					dodajPovezavo(counter, counter + (N-1));
 				}
-				indeks ++;
+				counter++;
 			}
 		}
-		
-		//zgornji trikotnik romba
-		for (int i = 12; i <= 21; i++) {
-			int l = 22 - i;
-			for (int j = 1; j <= 22 - i; j++ ) {
-				Vozlisce a = new Vozlisce(i, j); //pozor: tole niso obiène karteziène koordinate
-				this.tabelaVozlisc[indeks] = a; 
-				if (i >= 11 && j == 1) {
-					a.rob.add(Rob.m2);
-					dodajPovezavo(indeks, Math.min(indeks+1,120));
-					dodajPovezavo(indeks, Math.min(indeks+l,120));
-					dodajPovezavo(indeks, indeks - l - 1);
-					dodajPovezavo(indeks, indeks - l);
-
-				} if (i + j == 22) {
-					a.rob.add(Rob.r2);
-					dodajPovezavo(indeks, indeks - 1);
-					dodajPovezavo(indeks, indeks + l -1);
-					dodajPovezavo(indeks, indeks -l -1);
-					dodajPovezavo(indeks, indeks - l);
-				} if(j > 1 && j < l) {		// imamo notranje vozlišèe, dodamo 6 sosedov
-					dodajPovezavo(indeks, indeks+1);
-					dodajPovezavo(indeks, indeks-1);
-					dodajPovezavo(indeks, indeks+l);
-					dodajPovezavo(indeks, indeks-(l));
-					dodajPovezavo(indeks, indeks+l+1);
-					dodajPovezavo(indeks, indeks-(l)+1);
-				}
-				indeks ++;
-			}
-		}
-		
-	
-		//TODO: dodaj sosede robnim vozlišèem (tistim, ki imajo 2, 3 ali 4 sosede)
-		
+		vozlisce(0).rob.add(Rob.r1);
+		vozlisce(10).rob.add(Rob.r2);
+		vozlisce(110).rob.add(Rob.m2);
+		vozlisce(120).rob.add(Rob.m2);
+		vozlisce(0).sosedi.remove(-1);
+		vozlisce(0).sosedi.remove(10);
+		vozlisce(10).sosedi.remove(11);
+		vozlisce(110).sosedi.remove(121);
+		vozlisce(120).sosedi.remove(130);
+		vozlisce(120).sosedi.remove(131);
 	}
 	
 	//TODO: metoda simetrija, ki vrne simetrièni par za dano vozlišèe (implementacije prek 'podgrup')

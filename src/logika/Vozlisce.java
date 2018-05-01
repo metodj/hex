@@ -17,7 +17,15 @@ public class Vozlisce {
 		this.barva = Barva.prazen;
 		this.rob = new HashSet<Rob>();
 		this.sosedi = new HashSet<Integer>();
+	}
+
+
+	@Override
+	public String toString() {
+		return "(" + x + "," + y + ")";
 	} 
+	
+	
 	
 	
 	
