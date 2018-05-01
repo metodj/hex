@@ -22,6 +22,7 @@ public class Igra {
 		}
 		
 	}
+	
 	//rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom
 	public Pot obstaja_pot(Igralec igrac, Vozlisce voz, Set<Vozlisce> obiskano) {
 		Pot tmp = new Pot();
@@ -52,6 +53,9 @@ public class Igra {
 		} return tmp;
 	}
 	
+	
+	
+	//naprej pogledamo, kdo je na potezi. potem pogledamo, ali je v prejsnji potezi zmagal nasprotnik
 	public Stanje stanje() {
 		if (naPotezi == Igralec.modri) {
 			for (int i = 0; i <= 10; i++) {
