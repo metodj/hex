@@ -18,6 +18,6 @@ public class Test {
 	//System.out.println(new Tuple(0,0) == new Tuple(0,0));
 	}
 	
-	//TODO namesto teh 'naivnih' testov se naredi junit teste
+	//TODO namesto teh 'naivnih' testov se naredi junit test
 
 }
