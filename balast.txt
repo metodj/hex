@@ -69,3 +69,36 @@ public void incializacija() {
 		//TODO: popraviti zgornjo inicializacijo, trenutno ne deluje pravilno
 		
 	}
+
+
+
+
+	//rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom
+//		public Pot obstaja_pot(Igralec igrac, Tuple voz, Set<Tuple> obiskano) {
+//			Pot tmp = new Pot();
+//			tmp.pot = obiskano;
+//			tmp.pot.add(voz);
+//			if (igrac == Igralec.MODRI && plosca.matrikaPolj[voz.getY()][voz.getX()] == Polje.MODRO) {
+//				if (voz.getY() == 12) {
+//					tmp.koncna = true;
+//					return tmp;
+//				}
+//				for (Tuple sosed : plosca.sosedi(voz.getX(), voz.getY())) {
+//					if (plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.MODRO && !tmp.pot.contains(sosed)) {
+//						tmp.pot.add(sosed);
+//						return obstaja_pot(igrac,sosed,tmp.pot); //tole ni uredu, ubistvu je break, kar pa noèemo, ker mora iti for zanka èez vse sosede
+//					}
+//				}
+//			} else if (igrac == Igralec.RDECI && plosca.matrikaPolj[voz.getY()][voz.getX()] == Polje.RDECE) {
+//				if (voz.getX() == 12) {
+//					tmp.koncna = true;
+//					return tmp;
+//				}
+//				for (Tuple sosed : plosca.sosedi(voz.getX(), voz.getY())) {
+//					if (plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.RDECE && !tmp.pot.contains(sosed)) {
+//						tmp.pot.add(sosed);
+//						return obstaja_pot(igrac,sosed,tmp.pot);
+//					}
+//				}
+//			}return tmp;
+//		}
