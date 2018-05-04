@@ -21,6 +21,7 @@ public class TestLogika extends TestCase {
 		//Sedaj odigramo dve potezi. Na potezi je ponovno modri igralec, razpolozljivih potez je N*N-2
 		igra.odigraj_potezo(new Poteza(10,10));
 		igra.odigraj_potezo(new Poteza(9,2));
+		assertEquals(igra.plosca.matrikaPolj[10][10], Polje.MODRO);
 		assertEquals(igra.razpolozljive_poteze().size(), Plosca.N * Plosca.N - 2);
 		assertEquals(igra.stanje(), Stanje.POTEZA_MODRI);
 		//Sedaj odigramo neveljano potezo. Na potezi se vedno modri, stevilo raz. potez se ne spremeni
@@ -33,8 +34,21 @@ public class TestLogika extends TestCase {
 		}
 		igra.odigraj_potezo(new Poteza(1,11));
 		assertEquals(igra.stanje(), Stanje.ZMAGA_MODRI);
-		
-	
+		//ali dela stevec potez pravilno
+		assertEquals(igra.stPotez, 3);	
 	}
+	
+	//testiramo ali prva poteza dela gud
+	public void testPrvaPoteza() {
+		Igra igra2 = new Igra(Igralec.MODRI);
+		igra2.odigraj_potezo_advanced(new Poteza(5,2));
+		igra2.odigraj_potezo_advanced(new Poteza(5,2));
+		assertEquals(igra2.plosca.matrikaPolj[5][2], Polje.RDECE);
+		assertEquals(igra2.plosca.matrikaPolj[2][5], Polje.PRAZNO);
+		assertEquals(igra2.stPotez, 2);
+		assertEquals(igra2.razpolozljive_poteze().size(),120);		
+	}
+	
+	//PAZI!! DRUGI TEST NE DELA, ÈE NE ZAKOMENTIRAS PRVEGA. TREBA UGOTOVITI, KAKO PRAVILNO PISATI JUNIT TESTE
 
 }

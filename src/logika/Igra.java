@@ -6,6 +6,7 @@ import java.util.List;
 public class Igra {
 	public Plosca plosca;
 	private Igralec naPotezi;
+	public static int stPotez = 0;
 	
 	public Igra(Igralec prvi) {
 		this.plosca = new Plosca();
@@ -78,8 +79,7 @@ public class Igra {
 			}
 		}
 	
-		//tule se bo dodala se moznost za prvo potezo
-		//simetricnega soseda dobimo s transponiranjem matrikePolj
+		//ta je brez prve poteze
 		public boolean odigraj_potezo(Poteza p) {
 			if (this.razpolozljive_poteze().contains(p)) {
 				if (this.naPotezi == Igralec.MODRI) {
@@ -87,11 +87,41 @@ public class Igra {
 				} else {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
 				}
+				stPotez ++;
 				naPotezi = naPotezi.nasprotnik();
 				return true;
 			}
 			return false;
 		}
+		
+		//dodana moznost prve poteze
+		public boolean odigraj_potezo_advanced(Poteza p) {
+			if (stPotez == 1 && plosca.matrikaPolj[p.getY()][p.getX()] != Polje.PRAZNO) {
+				if (naPotezi == Igralec.MODRI) {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
+					plosca.matrikaPolj[p.getX()][p.getY()] = Polje.MODRO;
+				} else {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
+					plosca.matrikaPolj[p.getX()][p.getY()] = Polje.RDECE;
+				}
+				naPotezi = naPotezi.nasprotnik();
+				stPotez ++;
+				return true;
+			} else if (this.razpolozljive_poteze().contains(p)) {
+				if (this.naPotezi == Igralec.MODRI) {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
+				} else {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
+				}
+				naPotezi = naPotezi.nasprotnik();
+				stPotez ++;
+				return true;
+			}
+			return false;
+			
+		}
+		
+		
 		
 		
 		public List<Poteza> razpolozljive_poteze() {
