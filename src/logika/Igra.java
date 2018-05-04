@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Igra {
-	Plosca plosca;
+	public Plosca plosca;
 	private Igralec naPotezi;
 	
 	public Igra(Igralec prvi) {
@@ -18,7 +18,7 @@ public class Igra {
 	public List<Tuple> obstaja_pot(Igralec igralec, List<Tuple> potDoSedaj) {
 		Tuple zadnji = potDoSedaj.get(potDoSedaj.size() - 1);
 		if (igralec == Igralec.MODRI) {
-			if (zadnji.getY() == (Plosca.N+1)) {
+			if (zadnji.getY() == (Plosca.N)) {
 				return potDoSedaj;
 			} else {
 				for (Tuple sosed : plosca.sosedi(zadnji.getX(), zadnji.getY())) {
@@ -34,7 +34,7 @@ public class Igra {
 				}
 			}
 		} else {
-			if (zadnji.getX() == (Plosca.N+1)) {
+			if (zadnji.getX() == (Plosca.N)) {
 				return potDoSedaj;
 			} else {
 				for (Tuple sosed : plosca.sosedi(zadnji.getX(), zadnji.getY())) {
@@ -77,10 +77,34 @@ public class Igra {
 				return Stanje.POTEZA_RDECI;
 			}
 		}
+	
+		//tule se bo dodala se moznost za prvo potezo
+		//simetricnega soseda dobimo s transponiranjem matrikePolj
+		public boolean odigraj_potezo(Poteza p) {
+			if (this.razpolozljive_poteze().contains(p)) {
+				if (this.naPotezi == Igralec.MODRI) {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
+				} else {
+					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
+				}
+				naPotezi = naPotezi.nasprotnik();
+				return true;
+			}
+			return false;
+		}
 		
-		//TODO odigraj_potezo
 		
-		//TODO razpolozljive_poteze
+		public List<Poteza> razpolozljive_poteze() {
+			List<Poteza> rez = new LinkedList<Poteza>();
+			for (int y = 1; y <= Plosca.N; y++) {
+				for (int x = 1; x <= Plosca.N; x ++) {
+					if (plosca.matrikaPolj[y][x] == Polje.PRAZNO) {
+						rez.add(new Poteza(x, y));
+					}
+				}
+			}
+			return rez;
+		}
 
 
 }

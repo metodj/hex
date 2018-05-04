@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Plosca {
-	final static int N = 11;
-	Polje[][] matrikaPolj;
+	public final static int N = 11;
+	public Polje[][] matrikaPolj;
 	
 //Plosco predstavimo kot matriko vozlisc
 	public Plosca() {
