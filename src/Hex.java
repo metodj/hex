@@ -8,6 +8,7 @@ public class Hex {
 		JFrame glavno_okno = new GlavnoOkno();
 		glavno_okno.pack();
 		glavno_okno.setVisible(true);
+		
 	}
 
 }

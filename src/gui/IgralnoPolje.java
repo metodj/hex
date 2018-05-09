@@ -39,9 +39,11 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 	}
 	
 	private double stranicaSestkotnika() {
-		return (getHeight()-100) / (Plosca.N + (Plosca.N-1)/2); 
+		return (Math.min(getHeight(), (11.0/16.0)*getWidth())-100) / (Plosca.N + (Plosca.N-1)/2); 
 		//zashiftamo 10krat, vedno za 'pol' seskotnika. Od tu pride (Plosca.N-1)/2
 		// -100 pa zato, da je na zacetku cela plosca na zaslonu
+		//(Math.min(getHeight(), (11.0/16.0)*getWidth())-100) tole nevem ce je cist dobr. Na zacetku blo samo getHeight()
+		//tale stvar se uporablja tud v metodi koordinati()
 	}
 	
 	//ni lepo, ampak dela lol
@@ -51,9 +53,9 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		if (namen == 0) {
 			r = stranicaSestkotnika();
 		} else if (namen == 1) {
-			r = stranicaSestkotnika() + LINE_WIDTH;
+			r = stranicaSestkotnika() + 40*LINE_WIDTH;
 		} else if (namen == -1){
-			r = stranicaSestkotnika() - 40.0*LINE_WIDTH; //40* zato da je mal belega prostora med robom in pobarvanim poljem
+			r = stranicaSestkotnika() - getHeight()*0.1*LINE_WIDTH; //40* zato da je mal belega prostora med robom in pobarvanim poljem
 		}
 		int[][] tmp = new int[2][6]; //prva vrsta so x-i, drugi vrsta so y-i
 		tmp[0][0] = round(x);
@@ -96,9 +98,10 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		double shift_y = r * 1.5;
 		double shift_row = (y-1) * Math.sqrt(3) * r / 2.0;
 		
+		
 		double[] koordinati = new double[2];
-		koordinati[0] = 50 + (x-1)*shift_x + shift_row;
-		koordinati[1] = 550 - (y-1)*shift_y; //PAZI: 550=600-50, kjer je 600 od dimension, glej metodo getPrefferedSize
+		koordinati[0] = Math.min(getHeight(), (11.0/16.0)*getWidth())*0.07 + (x-1)*shift_x + shift_row;//*0.07, da se ne zabijemo v levi rob okna
+		koordinati[1] = Math.min(getHeight(), (11.0/16.0)*getWidth())*0.915 - (y-1)*shift_y; //*0.915, da se spodnji rob mreze ne zabije v spodnji rob okna
 		return koordinati;
 	}
 	
@@ -114,7 +117,6 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		
 		//risemo sestkotnike. Kot je naprogramirano sedaj, se bodo robovi verjetno zadeli v 'navbar' in ostale
 		//elemente, zato je potrebno dodati lepotni popravek. Glej vlogo LINE_WIDTH v Bauerjevi for zanki pri isti metodi
-		
 		for (int y = 1; y <= Plosca.N; y++) {
 			for(int x = 1; x <= Plosca.N; x++) {
 				double[] tocka = shift(x,y);
@@ -126,8 +128,34 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			
 		}
 		
-		// barvamo modre in rdece
+		//barvamo rob
 		
+		for(int x = 1; x <= Plosca.N; x++) {
+			double[] tocka_spodaj = shift(x,1);
+			double[] tocka_zgoraj = shift(x,11);
+			int[][] ogl2= ogliscaSestkotnika(tocka_spodaj[0], tocka_spodaj[1], 1);
+			int[][] ogl1= ogliscaSestkotnika(tocka_zgoraj[0], tocka_zgoraj[1], 1);
+			g2.setColor(Color.blue);
+			g2.drawLine(ogl1[0][2], ogl1[1][2], ogl1[0][3], ogl1[1][3]);
+			g2.drawLine(ogl1[0][3], ogl1[1][3], ogl1[0][4], ogl1[1][4]);
+			g2.drawLine(ogl2[0][5], ogl2[1][5], ogl2[0][0], ogl2[1][0]);
+			g2.drawLine(ogl2[0][0], ogl2[1][0], ogl2[0][1], ogl2[1][1]);
+		}
+		
+		for(int y = 1; y <= Plosca.N; y++) {
+			double[] tocka_spodaj = shift(1,y);
+			double[] tocka_zgoraj = shift(11,y);
+			int[][] ogl2= ogliscaSestkotnika(tocka_spodaj[0], tocka_spodaj[1], 1);
+			int[][] ogl1= ogliscaSestkotnika(tocka_zgoraj[0], tocka_zgoraj[1], 1);
+			g2.setColor(Color.red);
+			g2.drawLine(ogl1[0][0], ogl1[1][0], ogl1[0][1], ogl1[1][1]);
+			g2.drawLine(ogl1[0][2], ogl1[1][2], ogl1[0][1], ogl1[1][1]);
+			g2.drawLine(ogl2[0][3], ogl2[1][3], ogl2[0][4], ogl2[1][4]);
+			g2.drawLine(ogl2[0][5], ogl2[1][5], ogl2[0][4], ogl2[1][4]);
+		}
+		
+		
+		// barvamo modre in rdece
 		Polje[][] plosca = master.getPlosca();
 		if (plosca != null) {
 			for (int y = 1; y < Plosca.N; y++) {
@@ -143,54 +171,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		}
 		
 	}
-	
-	
-	/*@Override
-	protected void paintComponent(Graphics g) {
-		//uvodna magija
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
 		
-		double r = stranicaSestkotnika();
-		// èrte
-		g2.setColor(Color.black);
-		g2.setStroke(new BasicStroke((float) (r * LINE_WIDTH)));
-		
-		//risemo sestkotnike. Kot je naprogramirano sedaj, se bodo robovi verjetno zadeli v 'navbar' in ostale
-		//elemente, zato je potrebno dodati lepotni popravek. Glej vlogo LINE_WIDTH v Bauerjevi for zanki pri isti metodi
-		
-		double shift_x = r * Math.sqrt(3);
-		double shift_y = r * 1.5;
-		
-		for (int y = 1; y <= Plosca.N; y++) {
-			double y_2 = 550 - (y-1)*shift_y; //PAZI: 550=600-50, kjer je 600 od dimension, glej metodo getPrefferedSize
-			double shift_row = (y-1) * Math.sqrt(3) * r / 2.0;
-			for(int x = 1; x <= Plosca.N; x++) {
-				int[][] tocke= ogliscaSestkotnika(50 + (x-1)*shift_x + shift_row, y_2, 0);
-				//tole je fuul SHADY!!! ker smo double v funkciji ogliscaSestkotnika spremenili v int.
-				//funkcija drawPolygon je namrec zahtevala int!
-				g2.drawPolygon(tocke[0], tocke[1], 6); 
-			}
-			
-		}
-		
-		// barvamo modre in rdece
-		
-		Polje[][] plosca = master.getPlosca();
-		if (plosca != null) {
-			for (int y = 1; y < Plosca.N; y++) {
-				for (int x = 1; x < Plosca.N; x++) {
-					switch(plosca[y][x]) {
-					case MODRO: paintMODRA(g2, i, j); break;
-					case RDECE: paintRDECA(g2, i, j); break;
-					default: break;
-					}
-				}
-			}
-		}
-		
-	}*/
-	
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
