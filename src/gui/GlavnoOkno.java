@@ -57,4 +57,9 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		
 	}
 
+	public void klikniPolje(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

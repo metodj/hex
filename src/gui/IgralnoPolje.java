@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import logika.Igra;
 import logika.Plosca;
 import logika.Polje;
+import logika.Tuple;
 
 public class IgralnoPolje extends JPanel implements MouseListener{
 	
@@ -24,12 +25,16 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 	 */
 	private final static double LINE_WIDTH = 0.1;
 	
+	//spravimo kordinate pikslov sredisc sestkotnikov
+	private Tuple[][] tabela_centrov;
+	
 	
 	public IgralnoPolje(GlavnoOkno master) {
 		super();
 		setBackground(Color.white);
 		this.master = master;
 		this.addMouseListener(this);
+		this.tabela_centrov = new Tuple[Plosca.N][Plosca.N];
 	}
 	
 	//tole je verjetno zacetna velikost okna/polja
@@ -138,6 +143,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			for(int x = 1; x <= Plosca.N; x++) {
 				double[] tocka = shift(x,y);
 				int[][] tocke= ogliscaSestkotnika(tocka[0], tocka[1], 0);
+				tabela_centrov[y][x] = new Tuple(round(tocka[0]),round(tocka[1]));
 				//tole je fuul SHADY!!! ker smo double v funkciji ogliscaSestkotnika spremenili v int.
 				//funkcija drawPolygon je namrec zahtevala int!
 				g2.drawPolygon(tocke[0], tocke[1], 6); 
@@ -188,11 +194,32 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		}
 		
 	}
+	
+	public int evklidska(Tuple a, Tuple b) {
+		return (a.getX()- b.getX())*(a.getX()- b.getX()) + (a.getY()- b.getY())*(a.getY()- b.getY());
+	}
 		
-
+	// ta metoda bo morda prevec upocasnila UI zato mogoce treba zamenjati
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		int najmanjsa_razdalja = Math.max(getHeight(), getWidth())*Math.max(getHeight(), getWidth());
+		int izbran_x = 0;
+		int izbran_y = 0;
+		for (int i= 1; i <= Plosca.N; i ++) {
+			for (int j = 1; j <= Plosca.N; j ++) {
+				if (evklidska(tabela_centrov[i][j], new Tuple(x,y)) < najmanjsa_razdalja ) {
+					izbran_x = j;
+					izbran_y = i;
+				}
+			}
+		}
+		//tale pritop vzame za kklike povsem blizu zunanjemu robu plosce(hint: ocrtana kroznica)
+		if (najmanjsa_razdalja < stranicaSestkotnika()) {
+			master.klikniPolje(x,y);
+		}
+		
 		
 	}
 
