@@ -6,13 +6,15 @@ import java.util.List;
 public class Igra {
 	public Plosca plosca;
 	private Igralec naPotezi;
-	public static int stPotez = 0;
+	//public static int stPotez = 0;
+	public int stPotez;
 	
 	
 	public Igra(Igralec prvi) {
 		this.plosca = new Plosca();
 		plosca.inicializacija();
 		this.naPotezi = prvi; //za moznost izbire kdo zacne
+		this.stPotez = 0;
 	}
 	
 	

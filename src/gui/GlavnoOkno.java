@@ -151,8 +151,10 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		
 	}
 	
-	//TODO: ce izberes v meniju nova igra, potem ne dela dobro prva poteza (pie rule). morala bova resetirati stevec potez
-	//TODO: kdaj zmaga ne dela pravilno
-	//TODO: vcasih je pocasen, spet problem zgornja vrstica
+	/*TODO: odpraviti bug, ko postane pocasen, ce nafilamo ali celo x=1 vrstico z rdecimi ali celo y=1 vrstico
+	 * z modrimi. Problem je verjetno v metodah stanje() ali obstaja_pot() v razredu logika/Igra. Ucinkoviteje bo
+	 * potrebno napisati rekurzijo.
+	 */
+	
 
 }
