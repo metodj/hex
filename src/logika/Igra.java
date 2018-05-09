@@ -62,19 +62,23 @@ public class Igra {
 		public Stanje stanje() {
 			if (naPotezi == Igralec.MODRI) {
 				for (int y = 1; y <= Plosca.N; y++) {
-					List<Tuple> tmp2 = new LinkedList<Tuple>();
-					tmp2.add(new Tuple(1,y));
-					if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
-						return Stanje.ZMAGA_RDECI;
+					if (plosca.matrikaPolj[y][1] == Polje.RDECE ) {
+						List<Tuple> tmp2 = new LinkedList<Tuple>();
+						tmp2.add(new Tuple(1,y));
+						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+							return Stanje.ZMAGA_RDECI;
+						}
 					}
 				}
 				return Stanje.POTEZA_MODRI;
 			} else {
 				for (int x = 1; x <= Plosca.N; x++) {
-					List<Tuple> tmp2 = new LinkedList<Tuple>();
-					tmp2.add(new Tuple(x,1));
-					if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
-						return Stanje.ZMAGA_MODRI;
+					if (plosca.matrikaPolj[1][x] == Polje.MODRO ) {
+						List<Tuple> tmp2 = new LinkedList<Tuple>();
+						tmp2.add(new Tuple(x,1));
+						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+							return Stanje.ZMAGA_MODRI;
+						}
 					}
 				}
 				return Stanje.POTEZA_RDECI;

@@ -169,8 +169,8 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		// barvamo modre in rdece
 		Polje[][] plosca = master.getPlosca();
 		if (plosca != null) {
-			for (int y = 1; y < Plosca.N; y++) {
-				for (int x = 1; x < Plosca.N; x++) {
+			for (int y = 1; y <= Plosca.N; y++) {
+				for (int x = 1; x <= Plosca.N; x++) {
 					double[] tocka = shift(x,y);
 					switch(plosca[y][x]) {
 					case MODRO: paintMODRA(g2, tocka[0], tocka[1]); break;
@@ -205,13 +205,14 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			}
 		}
 		//tale pritop vzame za kklike povsem blizu zunanjemu robu plosce(hint: ocrtana kroznica)
-		if (najmanjsa_razdalja < stranicaSestkotnika()) {
+		if (Math.sqrt(najmanjsa_razdalja) < stranicaSestkotnika()) {
 			master.klikniPolje(izbran_x,izbran_y);
 			
 		}
 		System.out.println(izbran_x);
 		System.out.println(izbran_y);
 		System.out.println(najmanjsa_razdalja);
+		System.out.println(stranicaSestkotnika());
 		
 	}
 

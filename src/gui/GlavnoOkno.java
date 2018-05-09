@@ -150,5 +150,9 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		}	
 		
 	}
+	
+	//TODO: ce izberes v meniju nova igra, potem ne dela dobro prva poteza (pie rule). morala bova resetirati stevec potez
+	//TODO: kdaj zmaga ne dela pravilno
+	//TODO: vcasih je pocasen, spet problem zgornja vrstica
 
 }
