@@ -114,18 +114,6 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		return koordinati;
 	}
 	
-	/*private double[] shift(int x, int y) {
-		double r = stranicaSestkotnika();
-		double shift_x = r * Math.sqrt(3);
-		double shift_y = r * 1.5;
-		double shift_row = (y-1) * Math.sqrt(3) * r / 2.0;
-		
-		
-		double[] koordinati = new double[2];
-		koordinati[0] = Math.min(getHeight(), (11.0/16.0)*getWidth())*0.07 + (x-1)*shift_x + shift_row;//*0.07, da se ne zabijemo v levi rob okna
-		koordinati[1] = Math.min(getHeight(), (11.0/16.0)*getWidth())*0.915 - (y-1)*shift_y; //*0.915, da se spodnji rob mreze ne zabije v spodnji rob okna
-		return koordinati;
-	}*/
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -143,7 +131,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			for(int x = 1; x <= Plosca.N; x++) {
 				double[] tocka = shift(x,y);
 				int[][] tocke= ogliscaSestkotnika(tocka[0], tocka[1], 0);
-				tabela_centrov[y][x] = new Tuple(round(tocka[0]),round(tocka[1]));
+				tabela_centrov[y-1][x-1] = new Tuple(round(tocka[0]),round(tocka[1]));
 				//tole je fuul SHADY!!! ker smo double v funkciji ogliscaSestkotnika spremenili v int.
 				//funkcija drawPolygon je namrec zahtevala int!
 				g2.drawPolygon(tocke[0], tocke[1], 6); 
@@ -209,7 +197,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		int izbran_y = 0;
 		for (int i= 1; i <= Plosca.N; i ++) {
 			for (int j = 1; j <= Plosca.N; j ++) {
-				if (evklidska(tabela_centrov[i][j], new Tuple(x,y)) < najmanjsa_razdalja ) {
+				if (evklidska(tabela_centrov[i-1][j-1], new Tuple(x,y)) < najmanjsa_razdalja ) {
 					izbran_x = j;
 					izbran_y = i;
 				}
