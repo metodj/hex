@@ -21,4 +21,5 @@ public abstract class Strateg {
 	 * Glanvo okno klièe to metodo, ko uporabnik klikne na polje (i,j).
 	 */
 	public abstract void klik(int i, int j);
+		
 }

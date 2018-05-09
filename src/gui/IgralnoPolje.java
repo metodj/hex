@@ -131,7 +131,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			for(int x = 1; x <= Plosca.N; x++) {
 				double[] tocka = shift(x,y);
 				int[][] tocke= ogliscaSestkotnika(tocka[0], tocka[1], 0);
-				tabela_centrov[y-1][x-1] = new Tuple(round(tocka[0]),round(tocka[1]));
+				tabela_centrov[(y-1)][x-1] = new Tuple(round(tocka[0]),round(tocka[1]));
 				//tole je fuul SHADY!!! ker smo double v funkciji ogliscaSestkotnika spremenili v int.
 				//funkcija drawPolygon je namrec zahtevala int!
 				g2.drawPolygon(tocke[0], tocke[1], 6); 
@@ -200,14 +200,18 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 				if (evklidska(tabela_centrov[i-1][j-1], new Tuple(x,y)) < najmanjsa_razdalja ) {
 					izbran_x = j;
 					izbran_y = i;
+					najmanjsa_razdalja = evklidska(tabela_centrov[i-1][j-1], new Tuple(x,y));
 				}
 			}
 		}
 		//tale pritop vzame za kklike povsem blizu zunanjemu robu plosce(hint: ocrtana kroznica)
 		if (najmanjsa_razdalja < stranicaSestkotnika()) {
-			master.klikniPolje(x,y);
+			master.klikniPolje(izbran_x,izbran_y);
+			
 		}
-		
+		System.out.println(izbran_x);
+		System.out.println(izbran_y);
+		System.out.println(najmanjsa_razdalja);
 		
 	}
 

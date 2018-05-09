@@ -67,9 +67,9 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		getContentPane().add(status, status_layout);
 		
 		//igra
-		this.igra = new Igra(Igralec.MODRI); //tole bo pol metoda novaIgra(), glej kodo od prof. Bauer. 
-		igra.odigraj_potezo_advanced(new Poteza(1,2));
-		igra.odigraj_potezo_advanced(new Poteza(2,1));
+		//this.igra = new Igra(Igralec.MODRI); //tole bo pol metoda novaIgra(), glej kodo od prof. Bauer. 
+		//igra.odigraj_potezo_advanced(new Poteza(1,2));
+		//igra.odigraj_potezo_advanced(new Poteza(2,1));
 		
 		nova_igra();
 		

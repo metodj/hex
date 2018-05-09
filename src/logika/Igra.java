@@ -8,12 +8,14 @@ public class Igra {
 	private Igralec naPotezi;
 	public static int stPotez = 0;
 	
+	
 	public Igra(Igralec prvi) {
 		this.plosca = new Plosca();
 		plosca.inicializacija();
 		this.naPotezi = prvi; //za moznost izbire kdo zacne
 	}
-			
+	
+	
 	//rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom.
 	// ce zmagovalna pot obstaja jo funkcija vrne; v nasprotnem primeru vrne null.
 	public List<Tuple> obstaja_pot(Igralec igralec, List<Tuple> potDoSedaj) {
