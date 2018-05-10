@@ -209,11 +209,6 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 			master.klikniPolje(izbran_x,izbran_y);
 			
 		}
-		System.out.println(izbran_x);
-		System.out.println(izbran_y);
-		System.out.println(najmanjsa_razdalja);
-		System.out.println(stranicaSestkotnika());
-		
 	}
 
 	@Override

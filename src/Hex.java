@@ -1,10 +1,6 @@
 import javax.swing.JFrame;
 
 import gui.GlavnoOkno;
-import logika.Igra;
-import logika.Igralec;
-import logika.Plosca;
-import logika.Polje;
 
 public class Hex {
 

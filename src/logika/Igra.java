@@ -102,7 +102,7 @@ public class Igra {
 						}
 					} else if (plosca.matrikaPolj[y][1] == Polje.RDECE && !stikalo_rdec) {
 						continue;
-					} else if (plosca.matrikaPolj[y][1] == Polje.MODRO) {
+					} else if (plosca.matrikaPolj[y][1] == Polje.MODRO | plosca.matrikaPolj[y][1] == Polje.PRAZNO) {
 						stikalo_rdec = true;
 					}
 				}
@@ -118,7 +118,7 @@ public class Igra {
 						}
 					} else if (plosca.matrikaPolj[1][x] == Polje.MODRO && !stikalo_moder) {
 						continue;
-					} else if (plosca.matrikaPolj[1][x] == Polje.RDECE) {
+					} else if (plosca.matrikaPolj[1][x] == Polje.RDECE | plosca.matrikaPolj[1][x] == Polje.PRAZNO) {
 						stikalo_moder = true;
 					}
 				}
