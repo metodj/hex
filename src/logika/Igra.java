@@ -61,7 +61,7 @@ public class Igra {
 	
 	//naprej pogledamo, kdo je na potezi. potem pogledamo, ali je v prejsnji potezi zmagal nasprotnik.
 	//to  naredimo tako, da gremo cez vsa robna vozlisca in gledamo ali obstaja pot do nasprotnega roba
-		public Stanje stanje() {
+		/*public Stanje stanje() {
 			if (naPotezi == Igralec.MODRI) {
 				for (int y = 1; y <= Plosca.N; y++) {
 					if (plosca.matrikaPolj[y][1] == Polje.RDECE ) {
@@ -85,7 +85,47 @@ public class Igra {
 				}
 				return Stanje.POTEZA_RDECI;
 			}
+		}*/
+	
+		//mal izboljsana metoda kot zgornja (zakomentirana). Uporablja stikala in zato ne gremo cekirat vseh v prvi vrsti.
+		public Stanje stanje() {
+			boolean stikalo_rdec = true;
+			boolean stikalo_moder = true;
+			if (naPotezi == Igralec.MODRI) {
+				for (int y = 1; y <= Plosca.N; y++) {
+					if (plosca.matrikaPolj[y][1] == Polje.RDECE && stikalo_rdec) {
+						List<Tuple> tmp2 = new LinkedList<Tuple>();
+						tmp2.add(new Tuple(1,y));
+						stikalo_rdec = false;
+						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+							return Stanje.ZMAGA_RDECI;
+						}
+					} else if (plosca.matrikaPolj[y][1] == Polje.RDECE && !stikalo_rdec) {
+						continue;
+					} else if (plosca.matrikaPolj[y][1] == Polje.MODRO) {
+						stikalo_rdec = true;
+					}
+				}
+				return Stanje.POTEZA_MODRI;
+			} else {
+				for (int x = 1; x <= Plosca.N; x++) {
+					if (plosca.matrikaPolj[1][x] == Polje.MODRO && stikalo_moder) {
+						List<Tuple> tmp2 = new LinkedList<Tuple>();
+						tmp2.add(new Tuple(x,1));
+						stikalo_moder = false;
+						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+							return Stanje.ZMAGA_MODRI;
+						}
+					} else if (plosca.matrikaPolj[1][x] == Polje.MODRO && !stikalo_moder) {
+						continue;
+					} else if (plosca.matrikaPolj[1][x] == Polje.RDECE) {
+						stikalo_moder = true;
+					}
+				}
+				return Stanje.POTEZA_RDECI;
+			}
 		}
+		
 	
 		//ta je brez prve poteze
 		public boolean odigraj_potezo(Poteza p) {

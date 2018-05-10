@@ -150,11 +150,5 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		}	
 		
 	}
-	
-	/*TODO: odpraviti bug, ko postane pocasen, ce nafilamo ali celo x=1 vrstico z rdecimi ali celo y=1 vrstico
-	 * z modrimi. Problem je verjetno v metodah stanje() ali obstaja_pot() v razredu logika/Igra. Ucinkoviteje bo
-	 * potrebno napisati rekurzijo.
-	 */
-	
 
 }
