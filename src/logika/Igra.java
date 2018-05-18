@@ -1,5 +1,7 @@
 package logika;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,6 +61,67 @@ public class Igra {
 		return null;
 	}
 	
+	
+	//Alternativa obstaja poti kot je pokazal asistent
+	
+	public List<Tuple> obstaja_pot2(Igralec igralec, Tuple zacetni){
+		List<Tuple> sosedi = new ArrayList<>();
+		List<Tuple> father = new ArrayList<>();
+		sosedi.add(zacetni);
+		father.add(null);
+		if (igralec == Igralec.MODRI) {
+			int i = 0;
+			while(i < sosedi.size()) {
+				Tuple trenutni = sosedi.get(i);
+				if (trenutni.getY() == 11) {
+					List<Tuple> pot = new ArrayList<>();
+					pot.add(trenutni);
+					Tuple oce = father.get(i);
+					while (oce != null) {
+						int j = sosedi.indexOf(oce);
+						pot.add(sosedi.get(j));
+						oce = father.get(j);
+					}
+					Collections.reverse(pot);
+					return pot;
+				}
+				for (Tuple sosed : plosca.sosedi(trenutni.getX(), trenutni.getY())) {
+					if(!sosedi.contains(sosed) && plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.MODRO) {
+						sosedi.add(sosed);
+						father.add(trenutni);
+					}
+				}
+				i ++;
+			}
+			return null;
+		} else {
+			int i = 0;
+			while(i < sosedi.size()) {
+				Tuple trenutni = sosedi.get(i);
+				if (trenutni.getX() == 11) {
+					List<Tuple> pot = new ArrayList<>();
+					pot.add(trenutni);
+					Tuple oce = father.get(i);
+					while (oce != null) {
+						int j = sosedi.indexOf(oce);
+						pot.add(sosedi.get(j));
+						oce = father.get(j);
+					}
+					Collections.reverse(pot);
+					return pot;
+				}
+				for (Tuple sosed : plosca.sosedi(trenutni.getX(), trenutni.getY())) {
+					if(!sosedi.contains(sosed) && plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.RDECE) {
+						sosedi.add(sosed);
+						father.add(trenutni);
+					}
+				}
+				i ++;
+			}
+			return null;
+		}
+	}
+	
 	//naprej pogledamo, kdo je na potezi. potem pogledamo, ali je v prejsnji potezi zmagal nasprotnik.
 	//to  naredimo tako, da gremo cez vsa robna vozlisca in gledamo ali obstaja pot do nasprotnega roba
 		/*public Stanje stanje() {
@@ -94,10 +157,11 @@ public class Igra {
 			if (naPotezi == Igralec.MODRI) {
 				for (int y = 1; y <= Plosca.N; y++) {
 					if (plosca.matrikaPolj[y][1] == Polje.RDECE && stikalo_rdec) {
-						List<Tuple> tmp2 = new LinkedList<Tuple>();
-						tmp2.add(new Tuple(1,y));
+						//List<Tuple> tmp2 = new LinkedList<Tuple>();
+						//tmp2.add(new Tuple(1,y));
+						Tuple tmp2 = new Tuple(1,y);
 						stikalo_rdec = false;
-						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+						if (obstaja_pot2(naPotezi.nasprotnik(),tmp2) != null) {
 							return Stanje.ZMAGA_RDECI;
 						}
 					} else if (plosca.matrikaPolj[y][1] == Polje.RDECE && !stikalo_rdec) {
@@ -110,10 +174,11 @@ public class Igra {
 			} else {
 				for (int x = 1; x <= Plosca.N; x++) {
 					if (plosca.matrikaPolj[1][x] == Polje.MODRO && stikalo_moder) {
-						List<Tuple> tmp2 = new LinkedList<Tuple>();
-						tmp2.add(new Tuple(x,1));
+						//List<Tuple> tmp2 = new LinkedList<Tuple>();
+						//tmp2.add(new Tuple(x,1));
+						Tuple tmp2 = new Tuple(x,1);
 						stikalo_moder = false;
-						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
+						if (obstaja_pot2(naPotezi.nasprotnik(),tmp2) != null) {
 							return Stanje.ZMAGA_MODRI;
 						}
 					} else if (plosca.matrikaPolj[1][x] == Polje.MODRO && !stikalo_moder) {
