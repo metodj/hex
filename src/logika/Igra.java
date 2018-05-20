@@ -20,6 +20,22 @@ public class Igra {
 	}
 	
 	
+	/**
+	 * nov konstruktor (za metodo copyIgra)
+	 * morda ne bo uredu in se bo treba zapeljati s for zanko èez matriko polj
+	 */
+	public Igra(Igra igra) {
+		this.plosca = new Plosca();
+		for(int x=1; x <= Plosca.N; x++) {
+			for(int y=1; y <= Plosca.N; y++) {
+				this.plosca.matrikaPolj[y][x] = igra.plosca.matrikaPolj[y][x];
+			}
+		}
+		this.naPotezi = igra.naPotezi; //za moznost izbire kdo zacne
+		this.stPotez = igra.stPotez;
+	}
+	
+	
 	//rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom.
 	// ce zmagovalna pot obstaja jo funkcija vrne; v nasprotnem primeru vrne null.
 	public List<Tuple> obstaja_pot(Igralec igralec, List<Tuple> potDoSedaj) {
@@ -73,7 +89,7 @@ public class Igra {
 			int i = 0;
 			while(i < sosedi.size()) {
 				Tuple trenutni = sosedi.get(i);
-				if (trenutni.getY() == 11) {
+				if (trenutni.getY() == Plosca.N) {
 					List<Tuple> pot = new ArrayList<>();
 					pot.add(trenutni);
 					Tuple oce = father.get(i);
@@ -98,7 +114,7 @@ public class Igra {
 			int i = 0;
 			while(i < sosedi.size()) {
 				Tuple trenutni = sosedi.get(i);
-				if (trenutni.getX() == 11) {
+				if (trenutni.getX() == Plosca.N) {
 					List<Tuple> pot = new ArrayList<>();
 					pot.add(trenutni);
 					Tuple oce = father.get(i);

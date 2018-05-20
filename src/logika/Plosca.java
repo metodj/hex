@@ -31,25 +31,49 @@ public class Plosca {
 	}
 	
 	//Vrne seznam tuplov ki predstavljajo lokacijo sosedov vozlisca s kordinatama x, y
-	public List<Tuple> sosedi(int x, int y) {
+	public static List<Tuple> sosedi(int x, int y) {
 		List<Tuple> tmp = new LinkedList<Tuple>();
-		if ((x+1) <= (N+1)) {
+		if ((x+1) <= N) {
 			Tuple sosed = new Tuple(x+1,y);
 			tmp.add(sosed);
-		} if (0 <= (x-1)) {
+		} if (1 <= (x-1)) {
 			Tuple sosed = new Tuple(x-1,y);
 			tmp.add(sosed);
-		} if ((y+1) <= (N+1)) {
+		} if ((y+1) <= N) {
 			Tuple sosed = new Tuple(x,y+1);
 			tmp.add(sosed);
-		} if (0 <= (y-1)) {
+		} if (1 <= (y-1)) {
 			Tuple sosed = new Tuple(x,y-1);
 			tmp.add(sosed);
-		} if ((x+1) <= (N+1) && 0 <= (y-1)) {
+		} if ((x+1) <= N && 1 <= (y-1)) {
 			Tuple sosed = new Tuple(x+1,y-1);
 			tmp.add(sosed);
-		} if (0 <= (x-1) && (y+1) <= (N+1)) {
+		} if (1 <= (x-1) && (y+1) <= N) {
 			Tuple sosed = new Tuple(x-1,y+1);
+			tmp.add(sosed);
+		}
+		return tmp;
+	}
+	
+	public static List<Tuple> sosedi_bridge(int x, int y) {
+		List<Tuple> tmp = new LinkedList<Tuple>();
+		if ((x+1) <= N && (y+1) <= N) {
+			Tuple sosed = new Tuple(x+1,y+1);
+			tmp.add(sosed);
+		} if ((x+2) <= N  && 1 <= (y-1)) {
+			Tuple sosed = new Tuple(x+2,y-1);
+			tmp.add(sosed);
+		} if ((x+1) <= N && 1 <= (y-2)) {
+			Tuple sosed = new Tuple(x+1,y-2);
+			tmp.add(sosed);
+		} if (1 <= (y-1) && 1 <= (x-1)) {
+			Tuple sosed = new Tuple(x-1,y-1);
+			tmp.add(sosed);
+		} if ((y+1) <= N && 1 <= (x-2)) {
+			Tuple sosed = new Tuple(x-2,y+1);
+			tmp.add(sosed);
+		} if (1 <= (x-1) && (y+2) <= N) {
+			Tuple sosed = new Tuple(x-1,y+2);
 			tmp.add(sosed);
 		}
 		return tmp;

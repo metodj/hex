@@ -44,19 +44,12 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 	}
 	
 	private double stranicaSestkotnika() {
-		double r_w = getWidth()*0.9 / (Math.sqrt(3)*16);
-		double r_h = getHeight()*0.9 / 17.0;
+		double r_w = getWidth()*0.9 / (Math.sqrt(3)*(Plosca.N + Plosca.N / 2));
+		double r_h = getHeight()*0.9 / (Plosca.N + Plosca.N % 2 + Plosca.N / 2);
 		double r = Math.min(r_w, r_h);
 		return r;
 	}
 	
-	/*private double stranicaSestkotnika() {
-		return (Math.min(getHeight(), (11.0/16.0)*getWidth())-100) / (Plosca.N + (Plosca.N-1)/2); 
-		//zashiftamo 10krat, vedno za 'pol' seskotnika. Od tu pride (Plosca.N-1)/2
-		// -100 pa zato, da je na zacetku cela plosca na zaslonu
-		//(Math.min(getHeight(), (11.0/16.0)*getWidth())-100) tole nevem ce je cist dobr. Na zacetku blo samo getHeight()
-		//tale stvar se uporablja tud v metodi koordinati()
-	}*/
 	
 	//ni lepo, ampak dela lol
 	//namen lahko zavzema vrednosti -1,0. Glej if stavke za razumvanje
@@ -109,8 +102,8 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		double shift_row = (y-1) * Math.sqrt(3) * r / 2.0;
 		
 		double[] koordinati = new double[2];
-		koordinati[0] = (getWidth()-16*r*Math.sqrt(3))/2.0 + r*Math.sqrt(3)*0.5 + (x-1)*shift_x + shift_row;//*0.07, da se ne zabijemo v levi rob okna
-		koordinati[1] = getHeight()-(getHeight()-17.0*r)/2.0 - r - (y-1)*shift_y; //*0.915, da se spodnji rob mreze ne zabije v spodnji rob okna
+		koordinati[0] = (getWidth()-(Plosca.N + Plosca.N / 2)*r*Math.sqrt(3))/2.0 + r*Math.sqrt(3)*0.5 + (x-1)*shift_x + shift_row;//*0.07, da se ne zabijemo v levi rob okna
+		koordinati[1] = getHeight()-(getHeight()-(Plosca.N + Plosca.N % 2 + Plosca.N / 2)*r)/2.0 - r - (y-1)*shift_y; //*0.915, da se spodnji rob mreze ne zabije v spodnji rob okna
 		return koordinati;
 	}
 	
@@ -143,7 +136,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		
 		for(int x = 1; x <= Plosca.N; x++) {
 			double[] tocka_spodaj = shift(x,1);
-			double[] tocka_zgoraj = shift(x,11);
+			double[] tocka_zgoraj = shift(x,Plosca.N);
 			int[][] ogl2= ogliscaSestkotnika(tocka_spodaj[0], tocka_spodaj[1], 0);
 			int[][] ogl1= ogliscaSestkotnika(tocka_zgoraj[0], tocka_zgoraj[1], 0);
 			g2.setColor(Color.blue);
@@ -155,7 +148,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		
 		for(int y = 1; y <= Plosca.N; y++) {
 			double[] tocka_spodaj = shift(1,y);
-			double[] tocka_zgoraj = shift(11,y);
+			double[] tocka_zgoraj = shift(Plosca.N,y);
 			int[][] ogl2= ogliscaSestkotnika(tocka_spodaj[0], tocka_spodaj[1], 0);
 			int[][] ogl1= ogliscaSestkotnika(tocka_zgoraj[0], tocka_zgoraj[1], 0);
 			g2.setColor(Color.red);

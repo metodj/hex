@@ -29,7 +29,11 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 	
 	private Strateg strateg_rdec;
 	
-	private JMenuItem nova_igra;
+	// Izbire v menujih
+	private JMenuItem igraClovekRacunalnik;
+	private JMenuItem igraRacunalnikClovek;
+	private JMenuItem igraClovekClovek;
+	private JMenuItem igraRacunalnikRacunalnik;
 	
 	public GlavnoOkno() {
 		this.setTitle("Hex");
@@ -41,9 +45,22 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
-		nova_igra = new JMenuItem("Nova igra");
-		igra_menu.add(nova_igra);
-		nova_igra.addActionListener(this);
+		
+		igraClovekRacunalnik = new JMenuItem("Èlovek – raèunalnik");
+		igra_menu.add(igraClovekRacunalnik);
+		igraClovekRacunalnik.addActionListener(this);
+		
+		igraRacunalnikClovek = new JMenuItem("Raèunalnik – èlovek");
+		igra_menu.add(igraRacunalnikClovek);
+		igraRacunalnikClovek.addActionListener(this);
+
+		igraRacunalnikRacunalnik = new JMenuItem("Raèunalnik – raèunalnik");
+		igra_menu.add(igraRacunalnikRacunalnik);
+		igraRacunalnikRacunalnik.addActionListener(this);
+
+		igraClovekClovek = new JMenuItem("Èlovek – èlovek");
+		igra_menu.add(igraClovekClovek);
+		igraClovekClovek.addActionListener(this);
 		
 		// igralno polje
 		polje = new IgralnoPolje(this);
@@ -66,23 +83,21 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
 		
-		//igra
-		//this.igra = new Igra(Igralec.MODRI); //tole bo pol metoda novaIgra(), glej kodo od prof. Bauer. 
-		//igra.odigraj_potezo_advanced(new Poteza(1,2));
-		//igra.odigraj_potezo_advanced(new Poteza(2,1));
 		
-		nova_igra();
+		nova_igra(new Racunalnik(this, Igralec.MODRI), 
+						new Clovek(this, Igralec.RDECI));
 		
 		
 	}
 	
-	private void nova_igra() {
+	private void nova_igra(Strateg noviSrategModer, Strateg noviStrategRdec) {
 		
 		if (strateg_moder != null) { strateg_moder.prekini(); }
 		if (strateg_rdec != null) { strateg_rdec.prekini(); }
 		this.igra = new Igra(Igralec.RDECI);
-		strateg_moder = new Clovek(this);
-		strateg_rdec = new Clovek(this);
+		// Ustvarimo nove stratege
+		strateg_moder = noviSrategModer;
+		strateg_rdec = noviStrategRdec;
 		// Tistemu, ki je na potezi, to povemo
 		switch (igra.stanje()) {
 		case POTEZA_MODRI: strateg_moder.na_potezi(); break;
@@ -100,10 +115,10 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		}
 		else {
 			switch(igra.stanje()) {
-			case POTEZA_MODRI: status.setText("Na potezi je modri"); break;
-			case POTEZA_RDECI: status.setText("Na potezi je rdeci"); break;
-			case ZMAGA_MODRI: status.setText("Zmagal je modri"); break;
-			case ZMAGA_RDECI: status.setText("Zmagal je rdeci"); break;
+			case POTEZA_MODRI: status.setText("Na potezi je modri."); break;
+			case POTEZA_RDECI: status.setText("Na potezi je rdeèi."); break;
+			case ZMAGA_MODRI: status.setText("Zmagal je modri!"); break;
+			case ZMAGA_RDECI: status.setText("Zmagal je rdeèi!"); break;
 			}
 		}
 		polje.repaint();
@@ -117,8 +132,21 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == nova_igra) {
-			nova_igra();
+		if (e.getSource() == igraClovekRacunalnik) {
+			nova_igra(new Racunalnik(this, Igralec.MODRI),
+					new Clovek(this, Igralec.RDECI));
+		}
+		else if (e.getSource() == igraRacunalnikClovek) {
+			nova_igra( new Clovek(this, Igralec.MODRI),
+					new Racunalnik(this, Igralec.RDECI));
+		}
+		else if (e.getSource() == igraRacunalnikRacunalnik) {
+			nova_igra(new Racunalnik(this, Igralec.MODRI),
+					  new Racunalnik(this, Igralec.RDECI));
+		}
+		else if (e.getSource() == igraClovekClovek) {
+			nova_igra(new Clovek(this, Igralec.MODRI),
+			          new Clovek(this, Igralec.RDECI));
 		}
 		
 	}
@@ -149,6 +177,13 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 			}
 		}	
 		
+	}
+
+	/**
+	 * @return kopija trenutne igre
+	 */
+	public Igra copyIgra() {
+		return new Igra(igra);
 	}
 
 }
