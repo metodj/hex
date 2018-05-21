@@ -16,6 +16,7 @@ public class Ocena {
 	public static final int ZGUBA = -ZMAGA;
 	
 	
+	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA!
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
@@ -28,28 +29,32 @@ public class Ocena {
 			for (int x = 1; x <= Plosca.N; x ++) {
 				for (int y = 1; y <= Plosca.N; y ++) {
 					if (igra.plosca.matrikaPolj[y][x] == Polje.MODRO) {
+						int stevec_bridge_sosedov = 0;
 						for (Tuple b_sosed : Plosca.sosedi_bridge(x,y)) {
 							if (igra.plosca.matrikaPolj[b_sosed.getY()][b_sosed.getX()] == Polje.MODRO) {
+								stevec_bridge_sosedov++;
 								if (Math.abs(y - b_sosed.getY()) == 2) {
-									ocena_trenutne_plosce_za_modrega += 1000;
+									ocena_trenutne_plosce_za_modrega += 1200;
 								} else {
-									ocena_trenutne_plosce_za_modrega += 500;
+									ocena_trenutne_plosce_za_modrega += 100;
 								}
-								Plosca.sosedi(x, y).retainAll(Plosca.sosedi(b_sosed.getX(), b_sosed.getY()));
+								ocena_trenutne_plosce_za_modrega -= 100 * (stevec_bridge_sosedov-1);
+								List<Tuple> presek = Plosca.sosedi(x, y);
+								presek.retainAll(Plosca.sosedi(b_sosed.getX(), b_sosed.getY()));
 								int tmp = 0;
-								for (Tuple t : Plosca.sosedi(x, y)) {
+								for (Tuple t : presek) {
 									if (igra.plosca.matrikaPolj[t.getY()][t.getX()] == Polje.MODRO) {
-										ocena_trenutne_plosce_za_modrega += 200;
+										ocena_trenutne_plosce_za_modrega += 1100;
 									} else if (igra.plosca.matrikaPolj[t.getY()][t.getX()] == Polje.RDECE) {
 										tmp += 1;
 									} 
 								}
 								if (tmp == 2) {
-									ocena_trenutne_plosce_za_modrega -= 1000;
+									ocena_trenutne_plosce_za_modrega -=500;
 								} 
 							}
 						}
-					}
+					} 
 				}
 			}
 			return ocena_trenutne_plosce_za_modrega;
@@ -65,9 +70,10 @@ public class Ocena {
 								} else {
 									ocena_trenutne_plosce_za_rdecega += 500;
 								}
-								Plosca.sosedi(x, y).retainAll(Plosca.sosedi(b_sosed.getX(), b_sosed.getY()));
+								List<Tuple> presek = Plosca.sosedi(x, y);
+								presek.retainAll(Plosca.sosedi(b_sosed.getX(), b_sosed.getY()));
 								int tmp = 0;
-								for (Tuple t : Plosca.sosedi(x, y)) {
+								for (Tuple t : presek) {
 									if (igra.plosca.matrikaPolj[t.getY()][t.getX()] == Polje.RDECE) {
 										ocena_trenutne_plosce_za_rdecega += 200;
 									} else if (igra.plosca.matrikaPolj[t.getY()][t.getX()] == Polje.MODRO) {

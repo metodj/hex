@@ -106,7 +106,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 			// Izraèunamo vrednost pozicije po odigrani potezi p
 			int ocenaP = minimax(k+1, kopijaIgre).vrednost;
 			// Èe je p boljša poteza, si jo zabeležimo
-			if (najboljsa.size() == 0// še nimamo kandidata za najboljšo potezo
+			if (najboljsa.isEmpty()// še nimamo kandidata za najboljšo potezo
 				|| (naPotezi == jaz && ocenaP > ocenaNajboljsih) // maksimiziramo
 				|| (naPotezi != jaz && ocenaP < ocenaNajboljsih) // minimiziramo
 				) {
@@ -118,7 +118,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 			}
 		}
 		// Vrnemo najboljšo najdeno potezo in njeno oceno
-		assert (najboljsa != null);
+		assert (!najboljsa.isEmpty());
 		
 		int random_index = ThreadLocalRandom.current().nextInt(0, najboljsa.size());
 		return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
