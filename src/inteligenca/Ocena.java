@@ -16,7 +16,7 @@ public class Ocena {
 	public static final int ZGUBA = -ZMAGA;
 	
 	
-	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA!
+	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA
 	
 	/*public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
