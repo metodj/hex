@@ -19,13 +19,7 @@ public class Plosca {
 	public void inicializacija() {
 		for (int y = N + 1; y >= 0; y --) {
 			for (int x = 0; x <= N + 1; x ++) {
-				if (y == 0 | y == 12) {
-					this.matrikaPolj[y][x] = Polje.PRAZNO;
-				} else if ( x == 0 | x == 12) {
-					this.matrikaPolj[y][x] = Polje.PRAZNO;
-				} else {
-					this.matrikaPolj[y][x] = Polje.PRAZNO;
-				}
+				this.matrikaPolj[y][x] = Polje.PRAZNO;
 			}
 		}
 	}
