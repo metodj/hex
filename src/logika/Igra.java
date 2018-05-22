@@ -10,11 +10,17 @@ public class Igra {
 	private Igralec naPotezi;
 	//public static int stPotez = 0;
 	public int stPotez;
+	public MatrikaSosednosti matrikaRdeci;
+	public MatrikaSosednosti matrikaModri;
 	
 	
 	public Igra(Igralec prvi) {
 		this.plosca = new Plosca();
 		plosca.inicializacija();
+		this.matrikaModri = new MatrikaSosednosti();
+		this.matrikaRdeci = new MatrikaSosednosti();
+		this.matrikaModri.inicializacija(Igralec.MODRI);
+		this.matrikaRdeci.inicializacija(Igralec.RDECI);
 		this.naPotezi = prvi; //za moznost izbire kdo zacne
 		this.stPotez = 0;
 	}
@@ -22,7 +28,7 @@ public class Igra {
 	
 	/**
 	 * nov konstruktor (za metodo copyIgra)
-	 * morda ne bo uredu in se bo treba zapeljati s for zanko èez matriko polj
+	 * 
 	 */
 	public Igra(Igra igra) {
 		this.plosca = new Plosca();
@@ -31,6 +37,15 @@ public class Igra {
 				this.plosca.matrikaPolj[y][x] = igra.plosca.matrikaPolj[y][x];
 			}
 		}
+		this.matrikaModri = new MatrikaSosednosti();
+		this.matrikaRdeci = new MatrikaSosednosti();
+		for (int i = 0; i < Plosca.N*Plosca.N + 2; i++) {
+			for (int j = 0; j < Plosca.N*Plosca.N + 2; j++) {
+				this.matrikaModri.matrika[i][j] = igra.matrikaModri.matrika[i][j];
+				this.matrikaRdeci.matrika[i][j] = igra.matrikaRdeci.matrika[i][j];
+			}
+		}
+		
 		this.naPotezi = igra.naPotezi; //za moznost izbire kdo zacne
 		this.stPotez = igra.stPotez;
 	}
@@ -223,7 +238,7 @@ public class Igra {
 			return false;
 		}
 		
-		//dodana moznost prve poteze
+		/*//dodana moznost prve poteze
 		public boolean odigraj_potezo_advanced(Poteza p) {
 			if (stPotez == 1 && plosca.matrikaPolj[p.getY()][p.getX()] != Polje.PRAZNO) {
 				if (naPotezi == Igralec.MODRI) {
@@ -248,7 +263,43 @@ public class Igra {
 			}
 			return false;
 			
-		}
+		}*/
+		
+		
+		//originalna je zgornja, ki je zakomentirana. Tule dodatno sproti popravljamo matrik sosednosti!
+				public boolean odigraj_potezo_advanced(Poteza p) {
+					if (stPotez == 1 && plosca.matrikaPolj[p.getY()][p.getX()] != Polje.PRAZNO) {
+						if (naPotezi == Igralec.MODRI) {
+							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
+							plosca.matrikaPolj[p.getX()][p.getY()] = Polje.MODRO;
+							this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
+							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
+						} else {
+							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
+							plosca.matrikaPolj[p.getX()][p.getY()] = Polje.RDECE;
+							this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
+							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
+						}
+						naPotezi = naPotezi.nasprotnik();
+						stPotez ++;
+						return true;
+					} else if (this.razpolozljive_poteze().contains(p)) {
+						if (this.naPotezi == Igralec.MODRI) {
+							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
+							this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
+							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
+						} else {
+							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
+							this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
+							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
+						}
+						naPotezi = naPotezi.nasprotnik();
+						stPotez ++;
+						return true;
+					}
+					return false;
+					
+				}
 		
 		
 		

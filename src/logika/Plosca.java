@@ -6,10 +6,14 @@ import java.util.List;
 public class Plosca {
 	public final static int N = 11;
 	public Polje[][] matrikaPolj;
+	//public int[][] matrikaSosednostiModri;
+	//public int [][] matrikaSosednostiRdeci;
 	
 //Plosco predstavimo kot matriko vozlisc
 	public Plosca() {
 		matrikaPolj = new Polje[N+2][N+2]; //  N+2, ker bo rob naprogramiran po principu 'stražarja'
+		//matrikaSosednostiModri = new int[N*N + 2][N*N + 2];
+		//matrikaSosednostiRdeci = new int[N*N + 2][N*N + 2];
 	}
 	
 	/*TODO: tale rob po principu strazarja je povsem nepotreben sedaj, ob priliki ga lahko odstraniva in
@@ -20,6 +24,38 @@ public class Plosca {
 		for (int y = N + 1; y >= 0; y --) {
 			for (int x = 0; x <= N + 1; x ++) {
 				this.matrikaPolj[y][x] = Polje.PRAZNO;
+				
+				/*//zaenkrat grda incializacija matrik sosednosti, ali se da bolje?
+				if( x != 0 && y != 0 && x != N + 1 && y != N + 1) {
+					int indeks = x + N*(y-1);
+					for (Tuple sosed : sosedi(x,y)) {
+						this.matrikaSosednostiModri[indeks][sosed.getX() + N*(sosed.getY()-1)] = 1;
+						this.matrikaSosednostiRdeci[indeks][sosed.getX() + N*(sosed.getY()-1)] = 1;
+					}
+				}
+				
+				//uredimo se povezave sink-ov in source-ov
+				if (y == 0) {
+					for (int i = 1; i <= N; i ++) {
+						this.matrikaSosednostiRdeci[0][i] = 100000;
+					}
+				}
+				if (x == 0) {
+					for (int i = 1; i <= N; i ++) {
+						this.matrikaSosednostiModri[0][1 + (i-1)*N] = 100000;
+					}
+				}
+				if (y == N) {
+					for (int i = N*N - N; i <= N*N; i ++) {
+						this.matrikaSosednostiRdeci[i][N*N + 1] = 100000;
+					}
+				}
+				if (x == N) {
+					for (int i = 1; i <= N; i ++) {
+						this.matrikaSosednostiModri[i*N][N*N + 1] = 100000;
+					}
+				}*/
+				
 			}
 		}
 	}
