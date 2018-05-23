@@ -30,7 +30,7 @@ public class Racunalnik extends Strateg {
 	
 	@Override
 	public void na_potezi() {
-		// Zaènemo razmišljati
+		// Zaènemo razmišljati...
 		
 		//mislec = new NakljucnaInteligenca(master);
 		mislec = new Minimax(master, 2, jaz);
