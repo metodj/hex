@@ -1,6 +1,5 @@
 package logika;
 
-import java.util.Collections;
 
 public class MatrikaSosednosti {
 	

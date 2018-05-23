@@ -92,7 +92,7 @@ public class Ocena {
 		}
 		assert false;
 		return 42; // Java je blesava
-	}*/ 
+	} */
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
