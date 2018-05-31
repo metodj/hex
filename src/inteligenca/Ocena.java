@@ -16,9 +16,9 @@ public class Ocena {
 	public static final int ZGUBA = -ZMAGA;
 	
 	
-	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA!
+	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA
 	
-	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+	/*public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGA_MODRI:
 			return (jaz == Igralec.MODRI ? ZMAGA : ZGUBA);
@@ -92,6 +92,23 @@ public class Ocena {
 		}
 		assert false;
 		return 42; // Java je blesava
-	} 
+	} */
+	
+	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+		switch (igra.stanje()) {
+		case ZMAGA_MODRI:
+			return (jaz == Igralec.MODRI ? ZMAGA - igra.stPotez*100 : ZGUBA);
+		case ZMAGA_RDECI:
+			return (jaz == Igralec.RDECI ? ZMAGA - igra.stPotez*100: ZGUBA);
+		case POTEZA_MODRI:
+			FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+			return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
+		case POTEZA_RDECI:
+			FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+			return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
+		}
+		assert false;
+		return 42; // Java je blesava
+	}
 
 }

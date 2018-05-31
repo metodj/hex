@@ -45,6 +45,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		Igra igra = master.copyIgra();
 		OcenjenaPoteza p = minimax(0, igra);
 		assert (p.poteza != null);
+		System.out.println("Minimax: " + p);
 		return p.poteza;
 	}
 	
@@ -90,7 +91,6 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 					null,
 					Ocena.oceniPozicijo(jaz, igra));
 		}
-		
 		// Hranimo najboljšo do sedaj videno potezo in njeno oceno.
 		// Tu bi bilo bolje imeti seznam do sedaj videnih najboljših potez, ker je lahko
 		// v neki poziciji veè enakovrednih najboljših potez. Te bi lahko zbrali
@@ -124,5 +124,4 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
 	}
 	
-	//TODO: odpraviti bug (minimax ne dela za lihe globine, npr. 1 in 3)
 }
