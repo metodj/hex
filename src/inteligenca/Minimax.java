@@ -17,6 +17,8 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 	 * Glavno okno, v katerem poteka ta igra
 	 */
 	private GlavnoOkno master;
+	private int alpha = Ocena.ZGUBA-1;
+	private int beta = Ocena.ZMAGA+1;
 
 	/**
 	 * Globina, do katere pregleduje minimax
@@ -43,7 +45,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 	@Override
 	protected Poteza doInBackground() throws Exception {
 		Igra igra = master.copyIgra();
-		OcenjenaPoteza p = minimax(0, igra);
+		OcenjenaPoteza p = minimax(0, alpha, beta, igra);
 		assert (p.poteza != null);
 		System.out.println("Minimax: " + p);
 		return p.poteza;
@@ -65,7 +67,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 	 * @param igra
 	 * @return najboljša poteza (ali null, èe ji ni), skupaj z oceno najboljše poteze
 	 */	
-	private OcenjenaPoteza minimax(int k, Igra igra) {
+	private OcenjenaPoteza minimax(int k, int alpha, int beta, Igra igra) {
 		Igralec naPotezi = null;
 		// Ugotovimo, ali je konec, ali je kdo na potezi?
 		switch (igra.stanje()) {
@@ -98,30 +100,107 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		// popestrilo igro raèunalnika.
 		
 		List<Poteza> najboljsa = new LinkedList<Poteza>();
-		int ocenaNajboljsih = 0;
-		for (Poteza p : igra.razpolozljive_poteze()) {
-			// V kopiji igre odigramo potezo p
-			Igra kopijaIgre = new Igra(igra);
-			kopijaIgre.odigraj_potezo_advanced(p);
-			// Izraèunamo vrednost pozicije po odigrani potezi p
-			int ocenaP = minimax(k+1, kopijaIgre).vrednost;
-			// Èe je p boljša poteza, si jo zabeležimo
-			if (najboljsa.isEmpty()// še nimamo kandidata za najboljšo potezo
-				|| (naPotezi == jaz && ocenaP > ocenaNajboljsih) // maksimiziramo
-				|| (naPotezi != jaz && ocenaP < ocenaNajboljsih) // minimiziramo
-				) {
-				najboljsa = new LinkedList<Poteza>();
-				najboljsa.add(p);
-				ocenaNajboljsih = ocenaP;
-			} else if (ocenaP == ocenaNajboljsih) {
-				najboljsa.add(p);
-			}
-		}
-		// Vrnemo najboljšo najdeno potezo in njeno oceno
-		assert (!najboljsa.isEmpty());
 		
-		int random_index = ThreadLocalRandom.current().nextInt(0, najboljsa.size());
-		return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
+		if (naPotezi == jaz) {
+			int ocenaNajboljsih = Ocena.ZGUBA;
+			for (Poteza p : igra.razpolozljive_poteze()) {
+				// V kopiji igre odigramo potezo p
+				Igra kopijaIgre = new Igra(igra);
+				kopijaIgre.odigraj_potezo_advanced(p);
+				// Izraèunamo vrednost pozicije po odigrani potezi p
+				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
+				// Èe je p boljša poteza, si jo zabeležimo
+				if (najboljsa.isEmpty()// še nimamo kandidata za najboljšo potezo
+					|| (ocenaP > ocenaNajboljsih) ) {
+					najboljsa = new LinkedList<Poteza>();
+					najboljsa.add(p);
+					ocenaNajboljsih = ocenaP;
+				} else if (ocenaP == ocenaNajboljsih) {
+					najboljsa.add(p);
+				}
+				alpha = Math.max(ocenaNajboljsih, alpha);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			// Vrnemo najboljšo najdeno potezo in njeno oceno
+			assert (!najboljsa.isEmpty());
+			
+			int random_index = ThreadLocalRandom.current().nextInt(0, najboljsa.size());
+			return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
+		} else {
+			int ocenaNajboljsih = Ocena.ZMAGA;
+			for (Poteza p : igra.razpolozljive_poteze()) {
+				// V kopiji igre odigramo potezo p
+				Igra kopijaIgre = new Igra(igra);
+				kopijaIgre.odigraj_potezo_advanced(p);
+				// Izraèunamo vrednost pozicije po odigrani potezi p
+				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
+				// Èe je p boljša poteza, si jo zabeležimo
+				if (najboljsa.isEmpty()// še nimamo kandidata za najboljšo potezo
+					|| (ocenaP < ocenaNajboljsih) ) {
+					najboljsa = new LinkedList<Poteza>();
+					najboljsa.add(p);
+					ocenaNajboljsih = ocenaP;
+				} else if (ocenaP == ocenaNajboljsih) {
+					najboljsa.add(p);
+				}
+				beta = Math.min(ocenaNajboljsih, beta);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			// Vrnemo najboljšo najdeno potezo in njeno oceno
+			assert (!najboljsa.isEmpty());
+			
+			int random_index = ThreadLocalRandom.current().nextInt(0, najboljsa.size());
+			return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
+		}
+		
+		
+		//brez seznama
+		
+		/*Poteza najboljsa = null;
+		
+		if (naPotezi == jaz) {
+			int ocenaNajboljsih = Ocena.ZGUBA;
+			for (Poteza p : igra.razpolozljive_poteze()) {
+				// V kopiji igre odigramo potezo p
+				Igra kopijaIgre = new Igra(igra);
+				kopijaIgre.odigraj_potezo_advanced(p);
+				// Izraèunamo vrednost pozicije po odigrani potezi p
+				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
+				// Èe je p boljša poteza, si jo zabeležimo
+				if (ocenaP >= ocenaNajboljsih) {
+					najboljsa = p;
+					ocenaNajboljsih = ocenaP;
+				}
+				alpha = Math.max(ocenaNajboljsih, alpha);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			return new OcenjenaPoteza(najboljsa, ocenaNajboljsih);
+		} else {
+			int ocenaNajboljsih = Ocena.ZMAGA;
+			for (Poteza p : igra.razpolozljive_poteze()) {
+				// V kopiji igre odigramo potezo p
+				Igra kopijaIgre = new Igra(igra);
+				kopijaIgre.odigraj_potezo_advanced(p);
+				// Izraèunamo vrednost pozicije po odigrani potezi p
+				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
+				// Èe je p boljša poteza, si jo zabeležimo
+				if (ocenaP <= ocenaNajboljsih)  {
+					najboljsa = p;
+					ocenaNajboljsih = ocenaP;
+				} 
+				beta = Math.min(ocenaNajboljsih, beta);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			return new OcenjenaPoteza(najboljsa, ocenaNajboljsih);
+		}*/
 	}
 	
 }
