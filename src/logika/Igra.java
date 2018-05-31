@@ -318,5 +318,9 @@ public class Igra {
 		
 		
 
+		
+		//pomozne metodo za hevristiko bridge
+		
+		
 
 }

@@ -17,12 +17,12 @@ public class Hex {
 		glavno_okno.pack();
 		glavno_okno.setVisible(true);
 		
-		MatrikaSosednosti tmp = new MatrikaSosednosti();
+	/*	MatrikaSosednosti tmp = new MatrikaSosednosti();
 		tmp.inicializacija(Igralec.RDECI);
 		FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
 		System.out.println(tmp2.fordFulkerson(tmp, 0, Plosca.N*Plosca.N + 1));
 		tmp.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, new Poteza(1,1));
-		System.out.println(Arrays.deepToString(tmp.matrika));
+		System.out.println(Arrays.deepToString(tmp.matrika));*/
 	}
 
 }

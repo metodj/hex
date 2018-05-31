@@ -45,6 +45,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		Igra igra = master.copyIgra();
 		OcenjenaPoteza p = minimax(0, igra);
 		assert (p.poteza != null);
+		System.out.println("Minimax: " + p);
 		return p.poteza;
 	}
 	
@@ -83,22 +84,12 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		assert (naPotezi != null);
 		// Nekdo je na potezi, ugotovimo, kaj se splaèa igrati
 		
-		if (globina % 2 == 0) {
-			if (k >= globina) {
-				// dosegli smo najveèjo dovoljeno globino, zato
-				// ne vrnemo poteze, ampak samo oceno pozicije
-				return new OcenjenaPoteza(
-						null,
-						Ocena.oceniPozicijo(jaz, igra));
-			}
-		} else {
-			if (k >= globina) {
-				// dosegli smo najveèjo dovoljeno globino, zato
-				// ne vrnemo poteze, ampak samo oceno pozicije
-				return new OcenjenaPoteza(
-						null,
-						-Ocena.oceniPozicijo(jaz, igra));
-			}
+		if (k >= globina) {
+			// dosegli smo najveèjo dovoljeno globino, zato
+			// ne vrnemo poteze, ampak samo oceno pozicije
+			return new OcenjenaPoteza(
+					null,
+					Ocena.oceniPozicijo(jaz, igra));
 		}
 		// Hranimo najboljšo do sedaj videno potezo in njeno oceno.
 		// Tu bi bilo bolje imeti seznam do sedaj videnih najboljših potez, ker je lahko
@@ -133,7 +124,4 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		return new OcenjenaPoteza(najboljsa.get(random_index), ocenaNajboljsih);
 	}
 	
-	//TODO: odpraviti bug (minimax ne dela za lihe globine, npr. 1 in 3)
-	//UPDATE: po dodatnem preverjanje parnosti parametra globina v metodi minimax se zdi,
-	// da dela bolje pri globini 3 kot prej, hkrati pa vseeno dela slabše kot pri globini 2. Èudno!
 }
