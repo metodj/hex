@@ -119,7 +119,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 					najboljsa.add(p);
 				}
 				alpha = Math.max(ocenaNajboljsih, alpha);
-				if (beta <= alpha) {
+				if (beta < alpha) {
 					break;
 				}
 			}
@@ -146,7 +146,7 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 					najboljsa.add(p);
 				}
 				beta = Math.min(ocenaNajboljsih, beta);
-				if (beta <= alpha) {
+				if (beta < alpha) {
 					break;
 				}
 			}
