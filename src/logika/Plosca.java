@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Plosca {
-	public final static int N = 11;
+	public static int N = 11;
 	public Polje[][] matrikaPolj;
 	//public int[][] matrikaSosednostiModri;
 	//public int [][] matrikaSosednostiRdeci;

@@ -24,6 +24,7 @@ public class PrvaPoteza extends SwingWorker<Poteza, Object> {
 	@Override
 	protected Poteza doInBackground() throws Exception {
 		Igra igra = master.copyIgra();
+		Thread.sleep(500);
 		for (int x = 3; x <= (Plosca.N - 2); x ++) {
 			for (int y = 3; y <= (Plosca.N - 2); y ++) {
 				if (igra.plosca.matrikaPolj[y][x] != Polje.PRAZNO) {
