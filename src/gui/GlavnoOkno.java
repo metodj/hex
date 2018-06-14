@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import logika.Igra;
 import logika.Igralec;
@@ -34,6 +35,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	private JMenuItem igraRacunalnikRacunalnik;
+	private JMenuItem velikostMenu;
 	
 	public GlavnoOkno() {
 		this.setTitle("Hex");
@@ -45,6 +47,12 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
+		JMenu nastavitve = new JMenu("Nastavitve");
+		menu_bar.add(nastavitve);
+		
+		velikostMenu = new JMenuItem("Velikost plošèe");
+		nastavitve.add(velikostMenu);
+		velikostMenu.addActionListener(this);
 		
 		igraClovekRacunalnik = new JMenuItem("Èlovek – raèunalnik");
 		igra_menu.add(igraClovekRacunalnik);
@@ -147,6 +155,11 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		else if (e.getSource() == igraClovekClovek) {
 			nova_igra(new Clovek(this, Igralec.MODRI),
 			          new Clovek(this, Igralec.RDECI));
+		} else if(e.getSource() == velikostMenu) {
+			String n = JOptionPane.showInputDialog("Vnesi velikost plošèe:");
+			//Graf g = Graf.prazen(Integer.parseInt(n));
+			//g.razporedi(500, 500, 300);
+			//platno.narisi(g);
 		}
 		
 	}
