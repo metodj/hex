@@ -18,11 +18,25 @@ public class Ocena {
 		case ZMAGA_RDECI:
 			return (jaz == Igralec.RDECI ? ZMAGA : ZGUBA);
 		case POTEZA_MODRI:
-			FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
+			System.out.println(igra.obstaja_zmagovalna_bridge_pot() != null);
+			if ((igra.stPotez >= Plosca.N) && igra.obstaja_zmagovalna_bridge_pot() != null) {
+				//System.out.println("bridge");
+				return (jaz == Igralec.RDECI ? ZMAGA : ZGUBA);
+			} else {
+				//System.out.println("ford");
+				FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+				return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
+			} 
 		case POTEZA_RDECI:
-			FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
+			System.out.println( igra.obstaja_zmagovalna_bridge_pot() != null);
+			if ((igra.stPotez >= Plosca.N) && igra.obstaja_zmagovalna_bridge_pot() != null) {
+				//System.out.println("bridge");
+				return (jaz == Igralec.MODRI ? ZMAGA : ZGUBA);
+			} else {
+				//System.out.println("ford");
+				FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+				return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
+			}
 		}
 	
 		assert false;

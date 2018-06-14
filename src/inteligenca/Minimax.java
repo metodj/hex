@@ -48,7 +48,8 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		OcenjenaPoteza p = minimax(0, alpha, beta, igra);
 		assert (p.poteza != null);
 		System.out.println("Minimax: " + p);
-		System.out.println(igra.stPotez);
+		System.out.println("hov");
+		System.out.println(igra.obstaja_zmagovalna_bridge_pot());
 		return p.poteza;
 	}
 	

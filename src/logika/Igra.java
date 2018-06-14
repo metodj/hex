@@ -281,5 +281,190 @@ public class Igra {
 		}
 		
 		
+		
+		//spodaj so pomožne metode za hevristiko bridge poti
+		
+		public List<Tuple> pravi_bridge_sosedi(int x, int y) {
+			List<Tuple> tmp = new LinkedList<Tuple>();
+			if ((x+1) <=Plosca.N && (y+1) <= Plosca.N) {
+				if (this.plosca.matrikaPolj[y][x+1] == Polje.PRAZNO && this.plosca.matrikaPolj[y+1][x] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x+1,y+1);
+					tmp.add(sosed);
+				}
+			} if ((x+2) <=Plosca.N && 1 <= (y-1)) {
+				if (this.plosca.matrikaPolj[y][x+1] == Polje.PRAZNO && this.plosca.matrikaPolj[y-1][x+1] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x+2,y-1);
+					tmp.add(sosed);
+				}
+			} if ((x+1) <=Plosca.N&& 1 <= (y-2)) {
+				if (this.plosca.matrikaPolj[y-1][x] == Polje.PRAZNO && this.plosca.matrikaPolj[y-1][x+1] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x+1,y-2);
+					tmp.add(sosed);
+				}
+			} if (1 <= (y-1) && 1 <= (x-1)) {
+				if (this.plosca.matrikaPolj[y-1][x] == Polje.PRAZNO && this.plosca.matrikaPolj[y][x-1] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x-1,y-1);
+					tmp.add(sosed);
+				}
+			} if ((y+1) <=Plosca.N&& 1 <= (x-2)) {
+				if (this.plosca.matrikaPolj[y][x-1] == Polje.PRAZNO && this.plosca.matrikaPolj[y+1][x-1] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x-2,y+1);
+					tmp.add(sosed);
+				}
+			} if (1 <= (x-1) && (y+2) <= Plosca.N) {
+				if (this.plosca.matrikaPolj[y+1][x-1] == Polje.PRAZNO && this.plosca.matrikaPolj[y+1][x] == Polje.PRAZNO) {
+					Tuple sosed = new Tuple(x-1,y+2);
+					tmp.add(sosed);
+				}
+			}
+			return tmp;
+		}
+		
+		public List<Tuple> obstaja_pot2_bridge(Igralec igralec, Tuple zacetni){
+			List<Tuple> sosedi = new ArrayList<>();
+			List<Tuple> father = new ArrayList<>();
+			sosedi.add(zacetni);
+			father.add(null);
+			if (igralec == Igralec.MODRI) {
+				int i = 0;
+				while(i < sosedi.size()) {
+					Tuple trenutni = sosedi.get(i);
+					if (trenutni.getY() == Plosca.N || (trenutni.getY() == (Plosca.N - 1) && (trenutni.getX() - 1 > 0) 
+																&& (this.plosca.matrikaPolj[trenutni.getY()+1][trenutni.getX()] == Polje.PRAZNO)
+																&&(this.plosca.matrikaPolj[trenutni.getY()+1][trenutni.getX()-1] == Polje.PRAZNO))) {
+						List<Tuple> pot = new ArrayList<>();
+						pot.add(trenutni);
+						Tuple oce = father.get(i);
+						while (oce != null) {
+							int j = sosedi.indexOf(oce);
+							pot.add(sosedi.get(j));
+							oce = father.get(j);
+						}
+						Collections.reverse(pot);
+						return pot;
+					}
+					for (Tuple sosed : plosca.sosedi(trenutni.getX(), trenutni.getY())) {
+						if(!sosedi.contains(sosed) && plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.MODRO) {
+							sosedi.add(sosed);
+							father.add(trenutni);
+						}
+					}
+					for (Tuple pravi_bridge_sosed : this.pravi_bridge_sosedi(trenutni.getX(), trenutni.getY())) {
+						if(!sosedi.contains(pravi_bridge_sosed) && plosca.matrikaPolj[pravi_bridge_sosed.getY()][pravi_bridge_sosed.getX()] == Polje.MODRO) {
+							sosedi.add(pravi_bridge_sosed);
+							father.add(trenutni);
+						}
+					}
+					i ++;
+				}
+				return null;
+			} else {
+				int i = 0;
+				while(i < sosedi.size()) {
+					Tuple trenutni = sosedi.get(i);
+					if (trenutni.getX() == Plosca.N || (trenutni.getX() == (Plosca.N - 1) && (trenutni.getY() - 1 > 0) 
+							&& (this.plosca.matrikaPolj[trenutni.getX()+1][trenutni.getY()] == Polje.PRAZNO)
+							&&(this.plosca.matrikaPolj[trenutni.getX()+1][trenutni.getY()-1] == Polje.PRAZNO)))  {
+						List<Tuple> pot = new ArrayList<>();
+						pot.add(trenutni);
+						Tuple oce = father.get(i);
+						while (oce != null) {
+							int j = sosedi.indexOf(oce);
+							pot.add(sosedi.get(j));
+							oce = father.get(j);
+						}
+						Collections.reverse(pot);
+						return pot;
+					}
+					for (Tuple sosed : plosca.sosedi(trenutni.getX(), trenutni.getY())) {
+						if(!sosedi.contains(sosed) && plosca.matrikaPolj[sosed.getY()][sosed.getX()] == Polje.RDECE) {
+							sosedi.add(sosed);
+							father.add(trenutni);
+						}
+					}
+					for (Tuple pravi_bridge_sosed : this.pravi_bridge_sosedi(trenutni.getX(), trenutni.getY())) {
+						if(!sosedi.contains(pravi_bridge_sosed) && plosca.matrikaPolj[pravi_bridge_sosed.getY()][pravi_bridge_sosed.getX()] == Polje.RDECE) {
+							sosedi.add(pravi_bridge_sosed);
+							father.add(trenutni);
+						}
+					}
+					i ++;
+				}
+				return null;
+			}
+		}
+		
+		
+		public List<Tuple> obstaja_zmagovalna_bridge_pot() {
+			boolean stikalo_rdec = true;
+			boolean stikalo_moder = true;
+			if (naPotezi == Igralec.MODRI) {
+				for (int y = 1; y <= Plosca.N; y++) {
+					if (plosca.matrikaPolj[y][2] == Polje.RDECE && stikalo_rdec 
+							&& (plosca.matrikaPolj[y][1] == Polje.PRAZNO) && (plosca.matrikaPolj[y+1][1] == Polje.PRAZNO)
+							&& (y+1 < Plosca.N+1)) {
+						Tuple tmp2 = new Tuple(2,y);
+						stikalo_rdec = false;
+						List<Tuple> rez = obstaja_pot2_bridge(naPotezi.nasprotnik(),tmp2);
+						if (rez != null) {
+							return rez;
+							}
+						} else if (plosca.matrikaPolj[y][1] == Polje.RDECE && !stikalo_rdec) {
+							continue;
+						} else if (plosca.matrikaPolj[y][1] == Polje.MODRO | plosca.matrikaPolj[y][1] == Polje.PRAZNO) {
+							stikalo_rdec = true;
+						}
+					}
+				stikalo_rdec = true;
+				for (int y = 1; y <= Plosca.N; y++) {
+					if (plosca.matrikaPolj[y][1] == Polje.RDECE && stikalo_rdec) {
+						Tuple tmp2 = new Tuple(1,y);
+						stikalo_rdec = false;
+						List<Tuple> rez = obstaja_pot2_bridge(naPotezi.nasprotnik(),tmp2);
+						if (rez != null) {
+							return rez;
+						}
+					} else if (plosca.matrikaPolj[y][1] == Polje.RDECE && !stikalo_rdec) {
+						continue;
+					} else if (plosca.matrikaPolj[y][1] == Polje.MODRO | plosca.matrikaPolj[y][1] == Polje.PRAZNO) {
+						stikalo_rdec = true;
+					}
+				}
+			} else {
+				for (int x = 1; x <= Plosca.N; x++) {
+					if (plosca.matrikaPolj[2][x] == Polje.MODRO && stikalo_moder
+							&& (plosca.matrikaPolj[1][x] == Polje.PRAZNO) && (plosca.matrikaPolj[1][x+1] == Polje.PRAZNO)
+							&& (x+1 < Plosca.N+1)) {
+						Tuple tmp2 = new Tuple(x,2);
+						stikalo_moder = false;
+						List<Tuple> rez = obstaja_pot2_bridge(naPotezi.nasprotnik(),tmp2);
+						if (rez != null) {
+							return rez;
+							}
+						} else if (plosca.matrikaPolj[1][x] == Polje.MODRO && !stikalo_moder) {
+							continue;
+						} else if (plosca.matrikaPolj[1][x] == Polje.RDECE | plosca.matrikaPolj[1][x] == Polje.PRAZNO) {
+							stikalo_moder = true;
+						}
+					}
+				stikalo_moder = true;
+				for (int x = 1; x <= Plosca.N; x++) {
+					if (plosca.matrikaPolj[1][x] == Polje.MODRO && stikalo_moder) {
+						Tuple tmp2 = new Tuple(x,1);
+						stikalo_moder= false;
+						List<Tuple> rez = obstaja_pot2_bridge(naPotezi.nasprotnik(),tmp2);
+						if (rez != null) {
+							return rez;
+						}
+					} else if (plosca.matrikaPolj[1][x] == Polje.MODRO && !stikalo_moder) {
+						continue;
+					} else if (plosca.matrikaPolj[1][x] == Polje.RDECE | plosca.matrikaPolj[1][x] == Polje.PRAZNO) {
+						stikalo_moder = true;
+					}
+				}
+			}
+			return null;
+		}
+		
 
 }

@@ -184,6 +184,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 
 	public void odigraj(Poteza p) {
 		igra.odigraj_potezo_advanced(p);
+		System.out.println(igra.obstaja_zmagovalna_bridge_pot());
 		osveziGUI();
 		switch (igra.stanje()) {
 		case POTEZA_MODRI: strateg_moder.na_potezi(); break;
