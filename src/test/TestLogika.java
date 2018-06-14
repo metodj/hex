@@ -19,13 +19,13 @@ public class TestLogika extends TestCase {
 		// Na zaèetku imamo N * N potez
 		assertEquals(igra.razpolozljive_poteze().size(), Plosca.N * Plosca.N);
 		//Sedaj odigramo dve potezi. Na potezi je ponovno modri igralec, razpolozljivih potez je N*N-2
-		igra.odigraj_potezo(new Poteza(10,10));
-		igra.odigraj_potezo(new Poteza(9,2));
+		igra.odigraj_potezo_advanced(new Poteza(10,10));
+		igra.odigraj_potezo_advanced(new Poteza(9,2));
 		assertEquals(igra.plosca.matrikaPolj[10][10], Polje.MODRO);
 		assertEquals(igra.razpolozljive_poteze().size(), Plosca.N * Plosca.N - 2);
 		assertEquals(igra.stanje(), Stanje.POTEZA_MODRI);
 		//Sedaj odigramo neveljano potezo. Na potezi se vedno modri, stevilo raz. potez se ne spremeni
-		igra.odigraj_potezo(new Poteza(9,2));
+		igra.odigraj_potezo_advanced(new Poteza(9,2));
 		assertEquals(igra.razpolozljive_poteze().size(), Plosca.N * Plosca.N - 2);
 		assertEquals(igra.stanje(), Stanje.POTEZA_MODRI);
 		//Naredimo zmagovalno pot za modrega. Preverimo, ce je stanje igre ZMAGA_MODRI

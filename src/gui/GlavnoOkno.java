@@ -168,7 +168,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 			Plosca.N = stevilo;
 			// igralno polje
 			this.polje = new IgralnoPolje(this);
-			GridBagConstraints polje_layout = new GridBagConstraints(); //kaj je tole?? (enako za spodnje vrstice)
+			GridBagConstraints polje_layout = new GridBagConstraints(); 
 			polje_layout.gridx = 0;
 			polje_layout.gridy = 0;
 			polje_layout.fill = GridBagConstraints.BOTH;

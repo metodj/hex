@@ -9,6 +9,10 @@ import logika.Plosca;
 import logika.Polje;
 import logika.Poteza;
 
+/**
+ * Pomožni razred, ki omogoèa implementacijo hevristike za prvo potezo.
+ *
+ */
 public class PrvaPoteza extends SwingWorker<Poteza, Object> {
 	
 	private GlavnoOkno master;

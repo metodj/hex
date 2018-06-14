@@ -4,6 +4,7 @@ import logika.Igralec;
 import logika.Poteza;
 
 //kopirano od prof. Bauer, po potrebi spremeniti
+
 public class Clovek extends Strateg {
 	private GlavnoOkno master;
 	private Igralec jaz;

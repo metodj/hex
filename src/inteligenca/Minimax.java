@@ -159,49 +159,6 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 		}
 		
 		
-		//brez seznama
-		
-		/*Poteza najboljsa = null;
-		
-		if (naPotezi == jaz) {
-			int ocenaNajboljsih = Ocena.ZGUBA;
-			for (Poteza p : igra.razpolozljive_poteze()) {
-				// V kopiji igre odigramo potezo p
-				Igra kopijaIgre = new Igra(igra);
-				kopijaIgre.odigraj_potezo_advanced(p);
-				// Izraèunamo vrednost pozicije po odigrani potezi p
-				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
-				// Èe je p boljša poteza, si jo zabeležimo
-				if (ocenaP >= ocenaNajboljsih) {
-					najboljsa = p;
-					ocenaNajboljsih = ocenaP;
-				}
-				alpha = Math.max(ocenaNajboljsih, alpha);
-				if (beta <= alpha) {
-					break;
-				}
-			}
-			return new OcenjenaPoteza(najboljsa, ocenaNajboljsih);
-		} else {
-			int ocenaNajboljsih = Ocena.ZMAGA;
-			for (Poteza p : igra.razpolozljive_poteze()) {
-				// V kopiji igre odigramo potezo p
-				Igra kopijaIgre = new Igra(igra);
-				kopijaIgre.odigraj_potezo_advanced(p);
-				// Izraèunamo vrednost pozicije po odigrani potezi p
-				int ocenaP = minimax(k+1, alpha, beta, kopijaIgre).vrednost;
-				// Èe je p boljša poteza, si jo zabeležimo
-				if (ocenaP <= ocenaNajboljsih)  {
-					najboljsa = p;
-					ocenaNajboljsih = ocenaP;
-				} 
-				beta = Math.min(ocenaNajboljsih, beta);
-				if (beta <= alpha) {
-					break;
-				}
-			}
-			return new OcenjenaPoteza(najboljsa, ocenaNajboljsih);
-		}*/
 	}
 	
 }

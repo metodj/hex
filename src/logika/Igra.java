@@ -51,8 +51,11 @@ public class Igra {
 	}
 	
 	
-	//rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom.
-	// ce zmagovalna pot obstaja jo funkcija vrne; v nasprotnem primeru vrne null.
+
+	/**
+	 * rekurzivna funkcija ki pove ali je dano vozlisce povezano s koncnim robom.
+	 * ce zmagovalna pot obstaja jo funkcija vrne; v nasprotnem primeru vrne null.
+	 */
 	public List<Tuple> obstaja_pot(Igralec igralec, List<Tuple> potDoSedaj) {
 		Tuple zadnji = potDoSedaj.get(potDoSedaj.size() - 1);
 		if (igralec == Igralec.MODRI) {
@@ -93,8 +96,11 @@ public class Igra {
 	}
 	
 	
-	//Alternativa obstaja poti kot je pokazal asistent
 	
+	
+	/**
+	 * Alternativa obstaja poti kot je pokazal asistent
+	 */
 	public List<Tuple> obstaja_pot2(Igralec igralec, Tuple zacetni){
 		List<Tuple> sosedi = new ArrayList<>();
 		List<Tuple> father = new ArrayList<>();
@@ -153,35 +159,14 @@ public class Igra {
 		}
 	}
 	
-	//naprej pogledamo, kdo je na potezi. potem pogledamo, ali je v prejsnji potezi zmagal nasprotnik.
-	//to  naredimo tako, da gremo cez vsa robna vozlisca in gledamo ali obstaja pot do nasprotnega roba
-		/*public Stanje stanje() {
-			if (naPotezi == Igralec.MODRI) {
-				for (int y = 1; y <= Plosca.N; y++) {
-					if (plosca.matrikaPolj[y][1] == Polje.RDECE ) {
-						List<Tuple> tmp2 = new LinkedList<Tuple>();
-						tmp2.add(new Tuple(1,y));
-						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
-							return Stanje.ZMAGA_RDECI;
-						}
-					}
-				}
-				return Stanje.POTEZA_MODRI;
-			} else {
-				for (int x = 1; x <= Plosca.N; x++) {
-					if (plosca.matrikaPolj[1][x] == Polje.MODRO ) {
-						List<Tuple> tmp2 = new LinkedList<Tuple>();
-						tmp2.add(new Tuple(x,1));
-						if (obstaja_pot(naPotezi.nasprotnik(),tmp2) != null) {
-							return Stanje.ZMAGA_MODRI;
-						}
-					}
-				}
-				return Stanje.POTEZA_RDECI;
-			}
-		}*/
 	
-		//mal izboljsana metoda kot zgornja (zakomentirana). Uporablja stikala in zato ne gremo cekirat vseh v prvi vrsti.
+		
+	
+	
+		/**
+		 * naprej pogledamo, kdo je na potezi. potem pogledamo, ali je v prejsnji potezi zmagal nasprotnik.
+		 * to  naredimo tako, da gremo cez vsa robna vozlisca in gledamo ali obstaja pot do nasprotnega roba
+		 */
 		public Stanje stanje() {
 			boolean stikalo_rdec = true;
 			boolean stikalo_moder = true;
@@ -223,30 +208,23 @@ public class Igra {
 		}
 		
 	
-		//ta je brez prve poteze
-		public boolean odigraj_potezo(Poteza p) {
-			if (this.razpolozljive_poteze().contains(p)) {
-				if (this.naPotezi == Igralec.MODRI) {
-					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
-				} else {
-					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
-				}
-				stPotez ++;
-				naPotezi = naPotezi.nasprotnik();
-				return true;
-			}
-			return false;
-		}
 		
-		/*//dodana moznost prve poteze
+		
+		/**
+		 * Odigramo potezo in dodatno sproti popravljamo matriki sosednosti.
+		 */
 		public boolean odigraj_potezo_advanced(Poteza p) {
 			if (stPotez == 1 && plosca.matrikaPolj[p.getY()][p.getX()] != Polje.PRAZNO) {
 				if (naPotezi == Igralec.MODRI) {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
 					plosca.matrikaPolj[p.getX()][p.getY()] = Polje.MODRO;
+					this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
+					this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
 				} else {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
 					plosca.matrikaPolj[p.getX()][p.getY()] = Polje.RDECE;
+					this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
+					this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
 				}
 				naPotezi = naPotezi.nasprotnik();
 				stPotez ++;
@@ -254,8 +232,12 @@ public class Igra {
 			} else if (this.razpolozljive_poteze().contains(p)) {
 				if (this.naPotezi == Igralec.MODRI) {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
+					this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
+					this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
 				} else {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
+					this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
+					this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
 				}
 				naPotezi = naPotezi.nasprotnik();
 				stPotez ++;
@@ -263,43 +245,7 @@ public class Igra {
 			}
 			return false;
 			
-		}*/
-		
-		
-		//originalna je zgornja, ki je zakomentirana. Tule dodatno sproti popravljamo matrik sosednosti!
-				public boolean odigraj_potezo_advanced(Poteza p) {
-					if (stPotez == 1 && plosca.matrikaPolj[p.getY()][p.getX()] != Polje.PRAZNO) {
-						if (naPotezi == Igralec.MODRI) {
-							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
-							plosca.matrikaPolj[p.getX()][p.getY()] = Polje.MODRO;
-							this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
-							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
-						} else {
-							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.PRAZNO;
-							plosca.matrikaPolj[p.getX()][p.getY()] = Polje.RDECE;
-							this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
-							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
-						}
-						naPotezi = naPotezi.nasprotnik();
-						stPotez ++;
-						return true;
-					} else if (this.razpolozljive_poteze().contains(p)) {
-						if (this.naPotezi == Igralec.MODRI) {
-							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
-							this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);
-							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.MODRO, Igralec.RDECI, p);
-						} else {
-							plosca.matrikaPolj[p.getY()][p.getX()] = Polje.RDECE;
-							this.matrikaModri.popravi_matriko_sosednosti(Polje.RDECE, Igralec.MODRI, p);
-							this.matrikaRdeci.popravi_matriko_sosednosti(Polje.RDECE, Igralec.RDECI, p);
-						}
-						naPotezi = naPotezi.nasprotnik();
-						stPotez ++;
-						return true;
-					}
-					return false;
-					
-				}
+		}
 		
 		
 		

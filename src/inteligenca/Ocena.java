@@ -1,23 +1,45 @@
 package inteligenca;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+
 
 import logika.Igra;
 import logika.Igralec;
 import logika.Plosca;
-import logika.Polje;
-import logika.Tuple;
+
 
 public class Ocena {
 	public static final int ZMAGA = (1 << 20); // vrednost zmage, veè kot vsaka druga ocena pozicije
 	public static final int ZGUBA = -ZMAGA;
 	
+	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+		switch (igra.stanje()) {
+		case ZMAGA_MODRI:
+			return (jaz == Igralec.MODRI ? ZMAGA : ZGUBA);
+		case ZMAGA_RDECI:
+			return (jaz == Igralec.RDECI ? ZMAGA : ZGUBA);
+		case POTEZA_MODRI:
+			FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+			return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
+		case POTEZA_RDECI:
+			FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
+			return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
+		}
 	
-	//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA
-	
+		assert false;
+		return 42; // Java je blesava
+	}
+
+}
+
+
+
+/*
+ * Spodaj so zakomentirani prvi poskusi hevristik.
+ */
+
+
+//PAZI!! SEDAJ SO RAZLICNE OCENE ZA MODREGA IN RDECEGA IGRALCA
+
 	/*public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGA_MODRI:
@@ -93,26 +115,6 @@ public class Ocena {
 		assert false;
 		return 42; // Java je blesava
 	} */
-	
-	public static int oceniPozicijo(Igralec jaz, Igra igra) {
-		switch (igra.stanje()) {
-		case ZMAGA_MODRI:
-			return (jaz == Igralec.MODRI ? ZMAGA : ZGUBA);
-		case ZMAGA_RDECI:
-			return (jaz == Igralec.RDECI ? ZMAGA : ZGUBA);
-		case POTEZA_MODRI:
-			FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
-		case POTEZA_RDECI:
-			FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
-		}
-	
-		assert false;
-		return 42; // Java je blesava
-	}
-
-}
 
 
 

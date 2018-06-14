@@ -1,6 +1,11 @@
 package logika;
 
 
+/**
+ * Matrike sosednosti uporabimo za reprezentacijo hex mreže v obliki grafa. 
+ * To potrebujemo za ford fulkerson algoritem.
+ *
+ */
 public class MatrikaSosednosti {
 	
 	public int[][] matrika;

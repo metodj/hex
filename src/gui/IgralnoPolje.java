@@ -51,14 +51,17 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 	}
 	
 	
-	//ni lepo, ampak dela lol
-	//namen lahko zavzema vrednosti -1,0. Glej if stavke za razumvanje
+	
+	
+	/**
+	 * Namen lahko zavzema vrednosti -1,0. Glej if stavke za razumevanje.
+	 */
 	private int[][] ogliscaSestkotnika(double x, double y, int namen) {
 		double r = 0.0;
 		if (namen == 0) {
 			r = stranicaSestkotnika();
 		} else if (namen == -1){
-			r = stranicaSestkotnika()*0.8; //40* zato da je mal belega prostora med robom in pobarvanim poljem
+			r = stranicaSestkotnika()*0.8; 
 		}
 		int[][] tmp = new int[2][6]; //prva vrsta so x-i, drugi vrsta so y-i
 		tmp[0][0] = round(x);
@@ -84,17 +87,19 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 	private void paintMODRA(Graphics2D g2, double x, double y) {
 		int[][] tocke = ogliscaSestkotnika(x, y, -1);
 		g2.setColor(Color.blue);
-		//g2.setStroke(new BasicStroke((float) (stranicaSestkotnika() * LINE_WIDTH)));
 		g2.fillPolygon(tocke[0],tocke[1], 6);
 	}
 	
 	private void paintRDECA(Graphics2D g2, double x, double y) {
 		int[][] tocke = ogliscaSestkotnika(x, y, -1);
 		g2.setColor(Color.red);
-		//g2.setStroke(new BasicStroke((float) (stranicaSestkotnika() * LINE_WIDTH)));
 		g2.fillPolygon(tocke[0],tocke[1], 6);
 	}
 	
+	
+	/**
+	 * Zamaknemo kartezièni koordinatni sistem.
+	 */
 	private double[] shift(int x, int y) {
 		double r = stranicaSestkotnika();
 		double shift_x = r * Math.sqrt(3);
@@ -102,8 +107,8 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		double shift_row = (y-1) * Math.sqrt(3) * r / 2.0;
 		
 		double[] koordinati = new double[2];
-		koordinati[0] = (getWidth()-(Plosca.N + Plosca.N / 2)*r*Math.sqrt(3))/2.0 + r*Math.sqrt(3)*0.5 + (x-1)*shift_x + shift_row;//*0.07, da se ne zabijemo v levi rob okna
-		koordinati[1] = getHeight()-(getHeight()-(Plosca.N + Plosca.N % 2 + Plosca.N / 2)*r)/2.0 - r - (y-1)*shift_y; //*0.915, da se spodnji rob mreze ne zabije v spodnji rob okna
+		koordinati[0] = (getWidth()-(Plosca.N + Plosca.N / 2)*r*Math.sqrt(3))/2.0 + r*Math.sqrt(3)*0.5 + (x-1)*shift_x + shift_row;
+		koordinati[1] = getHeight()-(getHeight()-(Plosca.N + Plosca.N % 2 + Plosca.N / 2)*r)/2.0 - r - (y-1)*shift_y; 
 		return koordinati;
 	}
 	
@@ -118,22 +123,19 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		g2.setColor(Color.black);
 		g2.setStroke(new BasicStroke((float) (stranicaSestkotnika() * LINE_WIDTH)));
 		
-		//risemo sestkotnike. Kot je naprogramirano sedaj, se bodo robovi verjetno zadeli v 'navbar' in ostale
-		//elemente, zato je potrebno dodati lepotni popravek. Glej vlogo LINE_WIDTH v Bauerjevi for zanki pri isti metodi
+		//risemo sestkotnike.
 		for (int y = 1; y <= Plosca.N; y++) {
 			for(int x = 1; x <= Plosca.N; x++) {
 				double[] tocka = shift(x,y);
 				int[][] tocke= ogliscaSestkotnika(tocka[0], tocka[1], 0);
 				tabela_centrov[(y-1)][x-1] = new Tuple(round(tocka[0]),round(tocka[1]));
-				//tole je fuul SHADY!!! ker smo double v funkciji ogliscaSestkotnika spremenili v int.
-				//funkcija drawPolygon je namrec zahtevala int!
+				
 				g2.drawPolygon(tocke[0], tocke[1], 6); 
 			}
 			
 		}
 		
 		//barvamo rob
-		
 		for(int x = 1; x <= Plosca.N; x++) {
 			double[] tocka_spodaj = shift(x,1);
 			double[] tocka_zgoraj = shift(x,Plosca.N);
@@ -180,7 +182,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		return (a.getX()- b.getX())*(a.getX()- b.getX()) + (a.getY()- b.getY())*(a.getY()- b.getY());
 	}
 		
-	// ta metoda bo morda prevec upocasnila UI zato mogoce treba zamenjati
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
@@ -197,7 +199,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 				}
 			}
 		}
-		//tale pritop vzame za kklike povsem blizu zunanjemu robu plosce(hint: ocrtana kroznica)
+		//hint: ocrtana kroznica
 		if (Math.sqrt(najmanjsa_razdalja) < stranicaSestkotnika()) {
 			master.klikniPolje(izbran_x,izbran_y);
 			

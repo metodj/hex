@@ -1,6 +1,10 @@
 package logika;
 
-//Lokacija polja na plosci
+
+/**
+ * Lokacija polja na plosci.
+ *
+ */
 public class Tuple {
 	private int x;
 	private int y;
@@ -16,6 +20,7 @@ public class Tuple {
 	
 	
 	//ce ni spodnjih dveh overridov potem funkcija contains v metodi obstaja_pot ne deluje pravilno
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

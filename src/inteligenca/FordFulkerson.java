@@ -6,7 +6,8 @@ import java.util.Queue;
 import logika.MatrikaSosednosti;
 
 
-/*  Ta koda ni najina!! Najdena na naslovu: 
+/*  Ta koda ni najina!! Kodo sva le priredila najinemu programu.
+ *  Najdena na naslovu: 
  *  https://www.sanfoundry.com/java-program-implement-ford-fulkerson-algorithm/
 */ 
 

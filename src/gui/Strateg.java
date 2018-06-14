@@ -1,6 +1,7 @@
 package gui;
 
 //kopirano od prof. Bauer, po potrebi spremeniti
+
 public abstract class Strateg {
 	/**
 	 * Glavno okno klièe to metodo, ko je strateg na potezi.
