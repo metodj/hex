@@ -34,7 +34,7 @@ public class IgralnoPolje extends JPanel implements MouseListener{
 		setBackground(Color.white);
 		this.master = master;
 		this.addMouseListener(this);
-		this.tabela_centrov = new Tuple[Plosca.N][Plosca.N];
+		this.tabela_centrov = new Tuple[100][100];
 	}
 	
 	//tole je verjetno zacetna velikost okna/polja

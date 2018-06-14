@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import logika.Igra;
 import logika.Igralec;
+import logika.Plosca;
 import logika.Polje;
 import logika.Poteza;
 
@@ -34,6 +36,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	private JMenuItem igraRacunalnikRacunalnik;
+	private JMenuItem velikostMenu;
 	
 	public GlavnoOkno() {
 		this.setTitle("Hex");
@@ -45,6 +48,12 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
+		JMenu nastavitve = new JMenu("Nastavitve");
+		menu_bar.add(nastavitve);
+		
+		velikostMenu = new JMenuItem("Velikost plošèe");
+		nastavitve.add(velikostMenu);
+		velikostMenu.addActionListener(this);
 		
 		igraClovekRacunalnik = new JMenuItem("Èlovek – raèunalnik");
 		igra_menu.add(igraClovekRacunalnik);
@@ -133,18 +142,40 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == igraClovekRacunalnik) {
-			nova_igra(new Racunalnik(this, Igralec.MODRI),
+			if (Plosca.N <= 11) {
+			 nova_igra(new Racunalnik(this, Igralec.MODRI),
 					new Clovek(this, Igralec.RDECI));
+			}
 		}
 		else if (e.getSource() == igraRacunalnikClovek) {
+			if (Plosca.N <= 11) {
 			nova_igra( new Clovek(this, Igralec.MODRI),
 					new Racunalnik(this, Igralec.RDECI));
+			}
 		}
 		else if (e.getSource() == igraRacunalnikRacunalnik) {
+			if (Plosca.N <= 11) {
 			nova_igra(new Racunalnik(this, Igralec.MODRI),
 					  new Racunalnik(this, Igralec.RDECI));
+			}
 		}
 		else if (e.getSource() == igraClovekClovek) {
+			nova_igra(new Clovek(this, Igralec.MODRI),
+			          new Clovek(this, Igralec.RDECI));
+		} else if(e.getSource() == velikostMenu) {
+			String n = JOptionPane.showInputDialog("Vnesi velikost plošèe (igra raèunalnika bo onemogoèena za velikosti veèje od 11):");
+			int stevilo = Integer.parseInt(n);
+			Plosca.N = stevilo;
+			// igralno polje
+			this.polje = new IgralnoPolje(this);
+			GridBagConstraints polje_layout = new GridBagConstraints(); //kaj je tole?? (enako za spodnje vrstice)
+			polje_layout.gridx = 0;
+			polje_layout.gridy = 0;
+			polje_layout.fill = GridBagConstraints.BOTH;
+			polje_layout.weightx = 1.0;
+			polje_layout.weighty = 1.0;
+			getContentPane().add(polje, polje_layout);
+			
 			nova_igra(new Clovek(this, Igralec.MODRI),
 			          new Clovek(this, Igralec.RDECI));
 		}
