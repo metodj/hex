@@ -4,6 +4,7 @@ import javax.swing.SwingWorker;
 
 import inteligenca.Minimax;
 import inteligenca.NakljucnaInteligenca;
+import inteligenca.PrvaPoteza;
 import logika.Igralec;
 import logika.Poteza;
 
@@ -33,7 +34,11 @@ public class Racunalnik extends Strateg {
 		// Zaènemo razmišljati...
 		
 		//mislec = new NakljucnaInteligenca(master);
-		mislec = new Minimax(master, 2, jaz);
+		if  (master.copyIgra().prva_poteza_pomozna()) {
+			mislec = new PrvaPoteza(master, jaz);
+		} else {
+			mislec = new Minimax(master, 2, jaz);
+		}
 		mislec.execute();
 	}
 

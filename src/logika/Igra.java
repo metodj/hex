@@ -308,7 +308,7 @@ public class Igra {
 			List<Poteza> rez = new LinkedList<Poteza>();
 			for (int y = 1; y <= Plosca.N; y++) {
 				for (int x = 1; x <= Plosca.N; x ++) {
-					if (plosca.matrikaPolj[y][x] == Polje.PRAZNO) {
+					if (plosca.matrikaPolj[y][x] == Polje.PRAZNO || this.stPotez == 1) {
 						rez.add(new Poteza(x, y));
 					}
 				}
@@ -319,7 +319,20 @@ public class Igra {
 		
 
 		
-		//pomozne metodo za hevristiko bridge
+		public boolean prva_poteza_pomozna() {
+			if (this.stPotez == 1) {
+				for (int x = 1; x <= Plosca.N; x ++) {
+					for (int y = 1; y <= Plosca.N; y ++) {
+						if (this.plosca.matrikaPolj[y][x] != Polje.PRAZNO) {
+							if ((3 <= x) && (x <= Plosca.N - 2) && (3 <= y) && (y <= Plosca.N - 2)) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
 		
 		
 
