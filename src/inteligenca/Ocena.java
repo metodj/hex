@@ -8,23 +8,27 @@ import logika.Plosca;
 
 
 public class Ocena {
-	public static final int ZMAGA = (1 << 20); // vrednost zmage, veè kot vsaka druga ocena pozicije
+	public static final int ZMAGA = (1 << 20); // vrednost zmage, veï¿½ kot vsaka druga ocena pozicije
 	public static final int ZGUBA = -ZMAGA;
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+		int ocena, pretokRdeci, pretokModri;
 		switch (igra.stanje()) {
 		case ZMAGA_MODRI:
 			return (jaz == Igralec.MODRI ? ZMAGA : ZGUBA);
 		case ZMAGA_RDECI:
 			return (jaz == Igralec.RDECI ? ZMAGA : ZGUBA);
 		case POTEZA_MODRI:
-			FordFulkerson tmp2 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.MODRI ? tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1) : - tmp2.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1));
+			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
+			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
+			ocena = 5 * pretokRdeci - pretokModri;
+			return (jaz == Igralec.MODRI ? ocena : -ocena);
 		case POTEZA_RDECI:
-			FordFulkerson tmp3 = new FordFulkerson(Plosca.N*Plosca.N + 2);
-			return (jaz == Igralec.RDECI ? tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1) : - tmp3.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1));
+			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
+			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
+			ocena = 5 * pretokModri - pretokRdeci;
+			return (jaz == Igralec.RDECI ? ocena : -ocena);
 		}
-	
 		assert false;
 		return 42; // Java je blesava
 	}

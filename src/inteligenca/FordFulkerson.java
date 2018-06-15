@@ -18,7 +18,7 @@ public class FordFulkerson
     private int numberOfVertices;
     private boolean[] visited;
  
-    public FordFulkerson(int numberOfVertices)
+    private FordFulkerson(int numberOfVertices)
     {
         this.numberOfVertices = numberOfVertices;
         this.queue = new LinkedList<Integer>();
@@ -26,7 +26,7 @@ public class FordFulkerson
         visited = new boolean[numberOfVertices];		
     }
  
-    public boolean bfs(int source, int goal, int graph[][])
+    private boolean bfs(int source, int goal, int graph[][])
     {
         boolean pathFound = false;
         int destination, element;
@@ -64,7 +64,7 @@ public class FordFulkerson
         return pathFound;
     }
  
-    public int fordFulkerson(MatrikaSosednosti matrika, int source, int destination)
+    private int fordFulkersonPomozna(MatrikaSosednosti matrika, int source, int destination)
     {
         int u, v;
         int maxFlow = 0;
@@ -98,5 +98,10 @@ public class FordFulkerson
         }
  
         return maxFlow;
+    }
+    
+    public static int fordFulkerson(MatrikaSosednosti matrika, int source, int destination) {
+    	FordFulkerson tmp = new FordFulkerson(matrika.matrika.length);
+    	return tmp.fordFulkersonPomozna(matrika, source, destination);
     }
 }
