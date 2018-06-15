@@ -45,11 +45,11 @@ public class Minimax extends SwingWorker<Poteza, Object>{
 	@Override
 	protected Poteza doInBackground() throws Exception {
 		Igra igra = master.copyIgra();
+		System.out.println("minimax " + igra.obstaja_zmagovalna_bridge_pot() + " stevilo potez " + igra.stPotez);
 		OcenjenaPoteza p = minimax(0, alpha, beta, igra);
 		assert (p.poteza != null);
-		System.out.println("Minimax: " + p);
-		System.out.println("hov");
-		System.out.println(igra.obstaja_zmagovalna_bridge_pot());
+		//System.out.println("Minimax: " + p);
+	
 		return p.poteza;
 	}
 	
