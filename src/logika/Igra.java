@@ -229,7 +229,7 @@ public class Igra {
 				naPotezi = naPotezi.nasprotnik();
 				stPotez ++;
 				return true;
-			} else if (this.razpolozljive_poteze().contains(p)) {
+			} else if (plosca.matrikaPolj[p.getY()][p.getX()] == Polje.PRAZNO) {
 				if (this.naPotezi == Igralec.MODRI) {
 					plosca.matrikaPolj[p.getY()][p.getX()] = Polje.MODRO;
 					this.matrikaModri.popravi_matriko_sosednosti(Polje.MODRO, Igralec.MODRI, p);

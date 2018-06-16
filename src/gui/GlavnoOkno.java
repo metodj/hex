@@ -51,23 +51,23 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		JMenu nastavitve = new JMenu("Nastavitve");
 		menu_bar.add(nastavitve);
 		
-		velikostMenu = new JMenuItem("Velikost plošèe");
+		velikostMenu = new JMenuItem("Velikost ploÅ¡Äe");
 		nastavitve.add(velikostMenu);
 		velikostMenu.addActionListener(this);
 		
-		igraClovekRacunalnik = new JMenuItem("Èlovek – raèunalnik");
+		igraClovekRacunalnik = new JMenuItem("ÄŒlovek â€“ raÄunalnik");
 		igra_menu.add(igraClovekRacunalnik);
 		igraClovekRacunalnik.addActionListener(this);
 		
-		igraRacunalnikClovek = new JMenuItem("Raèunalnik – èlovek");
+		igraRacunalnikClovek = new JMenuItem("RaÄunalnik â€“ Älovek");
 		igra_menu.add(igraRacunalnikClovek);
 		igraRacunalnikClovek.addActionListener(this);
 
-		igraRacunalnikRacunalnik = new JMenuItem("Raèunalnik – raèunalnik");
+		igraRacunalnikRacunalnik = new JMenuItem("RaÄunalnik â€“ raÄunalnik");
 		igra_menu.add(igraRacunalnikRacunalnik);
 		igraRacunalnikRacunalnik.addActionListener(this);
 
-		igraClovekClovek = new JMenuItem("Èlovek – èlovek");
+		igraClovekClovek = new JMenuItem("ÄŒlovek â€“ Älovek");
 		igra_menu.add(igraClovekClovek);
 		igraClovekClovek.addActionListener(this);
 		
@@ -125,9 +125,9 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		else {
 			switch(igra.stanje()) {
 			case POTEZA_MODRI: status.setText("Na potezi je modri."); break;
-			case POTEZA_RDECI: status.setText("Na potezi je rdeèi."); break;
+			case POTEZA_RDECI: status.setText("Na potezi je rdeÄi."); break;
 			case ZMAGA_MODRI: status.setText("Zmagal je modri!"); break;
-			case ZMAGA_RDECI: status.setText("Zmagal je rdeèi!"); break;
+			case ZMAGA_RDECI: status.setText("Zmagal je rdeÄi!"); break;
 			}
 		}
 		polje.repaint();
@@ -163,7 +163,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 			nova_igra(new Clovek(this, Igralec.MODRI),
 			          new Clovek(this, Igralec.RDECI));
 		} else if(e.getSource() == velikostMenu) {
-			String n = JOptionPane.showInputDialog("Vnesi velikost plošèe (igra raèunalnika bo onemogoèena za velikosti veèje od 11):");
+			String n = JOptionPane.showInputDialog("Vnesi velikost ploÅ¡Äe (igra raÄunalnika bo onemogoÄena za velikosti veÄje od 11):");
 			int stevilo = Integer.parseInt(n);
 			Plosca.N = stevilo;
 			// igralno polje
@@ -183,7 +183,8 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 	}
 
 	public void odigraj(Poteza p) {
-		igra.odigraj_potezo_advanced(p);
+		//igra.odigraj_potezo_advanced(p);
+		if (igra.odigraj_potezo_advanced(p)) {
 		osveziGUI();
 		switch (igra.stanje()) {
 		case POTEZA_MODRI: strateg_moder.na_potezi(); break;
@@ -191,7 +192,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 		case ZMAGA_MODRI: break;
 		case ZMAGA_RDECI: break;
 		}
-		
+		}
 	}
 
 	public void klikniPolje(int i, int j) {

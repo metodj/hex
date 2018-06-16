@@ -8,7 +8,7 @@ import logika.Plosca;
 
 
 public class Ocena {
-	public static final int ZMAGA = (1 << 20); // vrednost zmage, ve� kot vsaka druga ocena pozicije
+	public static final int ZMAGA = (1 << 20); // vrednost zmage, več kot vsaka druga ocena pozicije
 	public static final int ZGUBA = -ZMAGA;
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
@@ -21,7 +21,7 @@ public class Ocena {
 		case POTEZA_MODRI:
 			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
 			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
-			ocena = 5 * pretokRdeci - pretokModri;
+			ocena = 7 * pretokRdeci - pretokModri;
 			return (jaz == Igralec.MODRI ? ocena : -ocena);
 		case POTEZA_RDECI:
 			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
