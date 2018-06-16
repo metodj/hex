@@ -31,9 +31,9 @@ public class Ocena {
 			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
 			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
 			if (igra.stPotez < Plosca.N) {
-				ocena = 2 * pretokRdeci - 1 * pretokModri;
+				ocena = 2 * pretokModri - 1 * pretokRdeci;
 			} else {
-				ocena = 7 * pretokRdeci - 1 * pretokModri;
+				ocena = 7 * pretokModri - 1 * pretokRdeci;
 			}
 			return (jaz == Igralec.RDECI ? ocena : -ocena);
 		}
