@@ -178,6 +178,7 @@ public class GlavnoOkno extends JFrame implements ActionListener{
 			
 			nova_igra(new Clovek(this, Igralec.MODRI),
 			          new Clovek(this, Igralec.RDECI));
+			status.setText("Igra človek proti človeku. Začne rdeči!");
 		}
 		
 	}

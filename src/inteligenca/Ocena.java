@@ -21,12 +21,20 @@ public class Ocena {
 		case POTEZA_MODRI:
 			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
 			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
-			ocena = 7 * pretokRdeci - pretokModri;
+			if (igra.stPotez < Plosca.N) {
+				ocena = 2 * pretokRdeci - 1 * pretokModri;
+			} else {
+				ocena = 7 * pretokRdeci - 1 * pretokModri;
+			}
 			return (jaz == Igralec.MODRI ? ocena : -ocena);
 		case POTEZA_RDECI:
 			pretokRdeci = FordFulkerson.fordFulkerson(igra.matrikaRdeci, 0, Plosca.N*Plosca.N + 1);
 			pretokModri = FordFulkerson.fordFulkerson(igra.matrikaModri, 0, Plosca.N*Plosca.N + 1);
-			ocena = 5 * pretokModri - pretokRdeci;
+			if (igra.stPotez < Plosca.N) {
+				ocena = 2 * pretokRdeci - 1 * pretokModri;
+			} else {
+				ocena = 7 * pretokRdeci - 1 * pretokModri;
+			}
 			return (jaz == Igralec.RDECI ? ocena : -ocena);
 		}
 		assert false;
